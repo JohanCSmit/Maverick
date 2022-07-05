@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+    <head>
+
+    </head>
+    <body>
+
+        <div>
+            <input type="text" id="ses">
+            <button onclick="clickJoin()"> Join </button> <br><br>
+            <button onclick="clickCreate()"> Create </button>
+            <button onclick="clickKill()"> Kill Me </button>
+        </div>
+
+        <script>
+
+            var SessionID;
+            var socket;
+
+            function clickKill() {
+                socket.send(JSON.stringify({
+                    "type": "lose",
+                    "sessionID" : SessionID
+                }))
+            }
+
+            function clickJoin() {
+                var sessionID = document.getElementById("ses").value;
+                SessionID = sessionID;
+                join(sessionID);
+            }
+
+            function clickCreate() {
+                var count = window.prompt("Please enter player count");
+                create(count);
+            }
+
+            function create(playerCount) {
+
+                var data = "playerCount=5";
+
+                var xhr = new XMLHttpRequest();
+                //xhr.withCredentials = true;
+
+                xhr.addEventListener("readystatechange", function() {
+                if(this.readyState === 4) {
+                    console.log(this.responseText);
+                }
+                });
+
+                xhr.open("POST", "http://localhost:5050/game/create");
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                xhr.send(data);
+            }
+            
+            function join(sessionID) {
+                socket = new WebSocket("ws://localhost:8080");
+
+                socket.onopen = function() {
+                    
+                    var obj = {
+                        "type": "join",
+                        "sessionID": sessionID
+                    }
+
+                    socket.send(JSON.stringify(obj));
+                }
+
+
+
+                socket.onmessage = function(message) {
+                    const obj = JSON.parse(message.data);
+                    const type = obj.type;
+                    console.log(obj);
+                }
+            }
+            
+
+        </script>
+    </body>
+</html>
+
+
+

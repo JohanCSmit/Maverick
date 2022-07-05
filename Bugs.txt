@@ -1,0 +1,3 @@
+* Delete User if Socket disconnects.
+* Know who host is and switch if host disconnects
+* End game if Session's userCount becomes 1 or less

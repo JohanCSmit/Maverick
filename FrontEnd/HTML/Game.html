@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" /> 
+  <title>Maverick-Joust</title>
+  <link href="../Styles/style.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+  <main role="main" class="container">
+    <h1 id='header'>In it to win it!</h1>
+
+    <button onclick='requestPermissions();' type='button' id='reqPerm'>Request permission</button>
+    
+    <br>
+    <h4>Orientation</h4>
+    <ul>
+      <li>X-axis (β): <span id="Orientation_b">0</span><span>°</span></li>
+      <li>Y-axis (γ): <span id="Orientation_g">0</span><span>°</span></li>
+      <li>Z-axis (α): <span id="Orientation_a">0</span><span>°</span></li>
+    </ul>
+
+    <h4>Accelerometer</h4>
+    <ul>
+      <li>X-axis: <span id="Accelerometer_x">0</span><span> m/s<sup>2</sup></span></li>
+      <li>Y-axis: <span id="Accelerometer_y">0</span><span> m/s<sup>2</sup></span></li>
+      <li>Z-axis: <span id="Accelerometer_z">0</span><span> m/s<sup>2</sup></span></li>
+      <li>Norm: <span id="Accelerometer_norm">0</span><span> m/s<sup>2</sup></span></li>
+    </ul>
+
+    <h4>Gyroscope</h4>
+    <ul>
+      <li>X-axis: <span id="Gyroscope_x">0</span><span>°/s</span></li>
+      <li>Y-axis: <span id="Gyroscope_y">0</span><span>°/s</span></li>
+      <li>Z-axis: <span id="Gyroscope_z">0</span><span>°/s</span></li>
+      <li>Norm: <span id="Gyroscope_norm">0</span><span>°/s</span></li>
+    </ul>
+</main>
+<script src="../Scripts/GameLogic.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+#red #E9202A
+
+button, input[type="button"], input[type="submit"] {  
+   margin-top: 8px; 
+   background-color: #020202; 
+   color: white; 
+   border-radius: 6px; 
+   border: 0px solid; 
+   width: 20%; 
+   height: 40px;
+}
+
+.bodyDiv {
+    width: 100%; 
+    text-align: center; 
+    padding-top: 0%;
+    font-family: 'Inter', sans-serif;
+}
+
+.logo {
+    padding-top: 4%;
+    max-width: auto; 
+    height: 80px;
+}
+
+.textInput{
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+}
