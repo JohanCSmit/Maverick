@@ -139,7 +139,7 @@ const WebSocket = require('ws');
 var app = express();
 const Port = process.env.PORT || 8080;
 
-var expressServer = app.listen(Port, function() {
+var server = app.listen(Port, function() {
   console.log("Express WS Server Listening on Port " + Port);
 });
 
@@ -149,7 +149,7 @@ var expressServer = app.listen(Port, function() {
   });
 });*/
 
-const wss = new WebSocket.Server({ expressServer });
+const wss = new WebSocket.Server({ server });
 
 var Sessions = new SessionList();
 
