@@ -149,7 +149,7 @@ server.on('upgrade', (request, socket, head) => {
   });
 });
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ noServer:true });
 
 var Sessions = new SessionList();
 
