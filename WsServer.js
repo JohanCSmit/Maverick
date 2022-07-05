@@ -150,14 +150,53 @@ console.log("http server listening on %d", port)
 var wss = new WebSocketServer({server: server})
 console.log("websocket server created")
 
+var Sessions = new SessionList();
+
 wss.on("connection", function(ws) {
 
-  console.log("websocket connection open")
+  console.log("someone connected");
 
-  ws.on("close", function() {
-    console.log("websocket connection close")
+  ws.on('message', function incoming(message) {
+  console.log('received: %s', message);
+
+    const obj = JSON.parse(message);
+    const type = obj.type;
+
+    if (type == "join") {
+      Sessions.AddSocketToSession(ws, obj.sessionID);
+    }
+    else if (type == "lose") {
+      Sessions.KillUser(ws, obj.sessionID);
+      Sessions.print(obj.sessionID);
+    }
+    
+  });
+
+  ws.on("close", function close() {
+
   })
 })
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
+app.use(express.static('FrontEnd/'));
+app.use(express.static(__dirname));
+
+
+app.post("/game/create",  function(request, response) {
+
+  const count = request.body.playerCount;
+  var sesID = Sessions.AddSession(count);
+
+  console.log(count);
+  console.log(sesID);
+
+  response.end(JSON.stringify({
+    "sessionID" : sesID
+  }));
+  
+});
 
 /*
 const express = require('express');
