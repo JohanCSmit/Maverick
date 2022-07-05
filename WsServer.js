@@ -133,6 +133,33 @@ class SessionList {
 ============================================================= */
 /* Express Server */
 
+var WebSocketServer = require("ws").Server
+var http = require("http")
+var express = require("express")
+var app = express()
+var port = process.env.PORT || 8080
+
+app.use(express.static('FrontEnd/'));
+app.use(express.static(__dirname));
+
+var server = http.createServer(app)
+server.listen(port)
+
+console.log("http server listening on %d", port)
+
+var wss = new WebSocketServer({server: server})
+console.log("websocket server created")
+
+wss.on("connection", function(ws) {
+
+  console.log("websocket connection open")
+
+  ws.on("close", function() {
+    console.log("websocket connection close")
+  })
+})
+
+/*
 const express = require('express');
 const WebSocket = require('ws');
 const http = require('http');
@@ -195,7 +222,7 @@ app.post("/game/create",  function(request, response) {
   }));
   
 });
-
+*/
 
 /*
 const express = require('express');
