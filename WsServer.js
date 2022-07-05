@@ -131,25 +131,27 @@ class SessionList {
 /* ==========================================================
 * Servers
 ============================================================= */
-
 /* Express Server */
 
 const express = require('express');
 const WebSocket = require('ws');
-const https = require('https');
 
-const app = express();
+var app = express();
 const Port = process.env.PORT || 8080;
 
-var Sessions = new SessionList();
-
-//var server = https.createServer(app);
-
-var server = app.listen(Port, function() {
+var expressServer = app.listen(Port, function() {
   console.log("Express WS Server Listening on Port " + Port);
 });
 
-const wss = new WebSocket.Server({ server });
+/*expressServer.on('upgrade', (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, socket => {
+    wss.emit('connection', socket, request);
+  });
+});*/
+
+const wss = new WebSocket.Server({ expressServer });
+
+var Sessions = new SessionList();
 
 wss.on('connection', function connection(ws) {
 
