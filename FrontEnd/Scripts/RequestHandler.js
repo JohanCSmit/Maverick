@@ -26,7 +26,7 @@ function createGame(pCount){
     }
     });
 
-    xhr.open("POST", "http://gentle-scrubland-69667.herokuapp.com/game/create", false);
+    xhr.open("POST", "https://gentle-scrubland-69667.herokuapp.com/game/create", false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.send(data);
@@ -42,7 +42,7 @@ function clickJoinGame() {
 function joinGame(sessionID){
 
     //alert("Joining");
-    _socket = new WebSocket("ws://gentle-scrubland-69667.herokuapp.com");
+    _socket = new WebSocket("wss://gentle-scrubland-69667.herokuapp.com");
 
     _socket.onopen = function() {
                     
