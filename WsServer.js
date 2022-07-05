@@ -181,7 +181,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 app.use(express.static('FrontEnd/'));
-app.use(express.static('./'));
+app.use(express.static(__dirname));
 
 
 app.post("/game/create",  function(request, response) {
