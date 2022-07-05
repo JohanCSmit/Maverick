@@ -143,7 +143,7 @@ var server = app.listen(Port, function() {
   console.log("Express WS Server Listening on Port " + Port);
 });
 
-expressServer.on('upgrade', (request, socket, head) => {
+server.on('upgrade', (request, socket, head) => {
   wss.handleUpgrade(request, socket, head, socket => {
     wss.emit('connection', socket, request);
   });
