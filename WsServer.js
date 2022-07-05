@@ -136,6 +136,7 @@ class SessionList {
 
 const express = require('express');
 const WebSocket = require('ws');
+const https = require('https');
 
 const app = express();
 const Port = process.env.PORT || 8080;
@@ -168,7 +169,10 @@ wss.on('connection', function connection(ws) {
 
 });
 
-var server = app.listen(Port, function() {
+
+var server = https.createServer();
+
+server = app.listen(Port, function() {
   console.log("Express WS Server Listening on Port " + Port);
 });
 server.on('upgrade', (request, socket, head) => {
