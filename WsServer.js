@@ -170,9 +170,9 @@ wss.on('connection', function connection(ws) {
 });
 
 
-var server = https.createServer();
+var server = https.createServer(app);
 
-server = app.listen(Port, function() {
+server.listen(Port, function() {
   console.log("Express WS Server Listening on Port " + Port);
 });
 server.on('upgrade', (request, socket, head) => {
