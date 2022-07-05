@@ -132,7 +132,7 @@ class SessionList {
 * Servers
 ============================================================= */
 /* Express Server */
-
+/*
 const express = require('express');
 const WebSocket = require('ws');
 const http = require('http');
@@ -194,10 +194,10 @@ app.post("/game/create",  function(request, response) {
     "sessionID" : sesID
   }));
   
-});
+});*/
 
 
-/*
+
 const express = require('express');
 const WebSocket = require('ws');
 
@@ -207,15 +207,14 @@ const Port = process.env.PORT || 8080;
 
 var server = app.listen(Port, function() {
   console.log("Express WS Server Listening on Port " + Port);
-});
 
-server.on('upgrade', (request, socket, head) => {
-  console.log("upgrade");
-  wss.handleUpgrade(request, socket, head, socket => {
-    wss.emit('connection', socket, request);
+  server.on('upgrade', (request, socket, head) => {
+    console.log("upgrade");
+    wss.handleUpgrade(request, socket, head, socket => {
+      wss.emit('connection', socket, request);
+    });
   });
 });
-
 
 
 var Sessions = new SessionList();
@@ -266,7 +265,7 @@ app.post("/game/create",  function(request, response) {
   }));
   
 });
-*/
+
 /* WebSocket Server */
 
 /*const { create } = require('domain');
