@@ -141,9 +141,20 @@ const https = require('https');
 const app = express();
 const Port = process.env.PORT || 8080;
 
-const wss = new WebSocket.Server({ noServer: true });
-
 var Sessions = new SessionList();
+
+//var server = https.createServer(app);
+
+var server = app.listen(Port, function() {
+  console.log("Express WS Server Listening on Port " + Port);
+});
+server.on('upgrade', (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, socket => {
+    wss.emit('connection', socket, request);
+  });
+});
+
+const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function connection(ws) {
 
@@ -167,18 +178,6 @@ wss.on('connection', function connection(ws) {
 
   })
 
-});
-
-
-var server = https.createServer(app);
-
-server.listen(Port, function() {
-  console.log("Express WS Server Listening on Port " + Port);
-});
-server.on('upgrade', (request, socket, head) => {
-  wss.handleUpgrade(request, socket, head, socket => {
-    wss.emit('connection', socket, request);
-  });
 });
 
 const bodyParser = require('body-parser');
