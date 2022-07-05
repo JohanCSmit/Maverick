@@ -145,7 +145,7 @@ var wss = new WebSocket.Server({ server });
 
 var Sessions = new SessionList();
 
-wss.on('connection', function connection(ws) {
+wss.on('connection', (ws) => {
 
   console.log("someone connected");
 
