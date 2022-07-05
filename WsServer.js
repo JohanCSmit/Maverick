@@ -156,6 +156,8 @@ var Sessions = new SessionList();
 
 wss.on('connection', function connection(ws) {
 
+  console.log("someone connected");
+
   ws.on('message', function incoming(message) {
   console.log('received: %s', message);
 
