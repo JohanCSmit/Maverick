@@ -137,6 +137,7 @@ const express = require('express');
 const WebSocket = require('ws');
 
 var app = express();
+const wss = new WebSocket.Server({ noServer:true });
 const Port = process.env.PORT || 8080;
 
 var server = app.listen(Port, function() {
@@ -149,7 +150,7 @@ server.on('upgrade', (request, socket, head) => {
   });
 });
 
-const wss = new WebSocket.Server({ noServer:true });
+
 
 var Sessions = new SessionList();
 
