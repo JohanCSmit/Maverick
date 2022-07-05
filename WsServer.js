@@ -135,6 +135,69 @@ class SessionList {
 
 const express = require('express');
 const WebSocket = require('ws');
+const http = require('http');
+
+const Port = process.env.PORT || 8080;
+
+var app = express();
+const server = http.createServer(app);
+var wss = new WebSocket.Server({ server });
+
+wss.on('connection', function connection(ws) {
+
+  console.log("someone connected");
+
+  ws.on('message', function incoming(message) {
+  console.log('received: %s', message);
+
+    const obj = JSON.parse(message);
+    const type = obj.type;
+
+    if (type == "join") {
+      Sessions.AddSocketToSession(ws, obj.sessionID);
+    }
+    else if (type == "lose") {
+      Sessions.KillUser(ws, obj.sessionID);
+      Sessions.print(obj.sessionID);
+    }
+    
+  });
+
+  ws.on("close", function close() {
+
+  })
+
+});
+
+server.listen(Port, function() {
+  console.log("Server Listening On: " + Port);
+});
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
+app.use(express.static('FrontEnd/'));
+app.use(express.static(__dirname));
+
+
+app.post("/game/create",  function(request, response) {
+
+  const count = request.body.playerCount;
+  var sesID = Sessions.AddSession(count);
+
+  console.log(count);
+  console.log(sesID);
+
+  response.end(JSON.stringify({
+    "sessionID" : sesID
+  }));
+  
+});
+
+
+/*
+const express = require('express');
+const WebSocket = require('ws');
 
 var app = express();
 const wss = new WebSocket.Server({ noServer:true });
@@ -145,6 +208,7 @@ var server = app.listen(Port, function() {
 });
 
 server.on('upgrade', (request, socket, head) => {
+  console.log("upgrade");
   wss.handleUpgrade(request, socket, head, socket => {
     wss.emit('connection', socket, request);
   });
@@ -200,7 +264,7 @@ app.post("/game/create",  function(request, response) {
   }));
   
 });
-
+*/
 /* WebSocket Server */
 
 /*const { create } = require('domain');
