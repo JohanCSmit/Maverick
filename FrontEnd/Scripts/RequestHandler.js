@@ -43,7 +43,7 @@ function joinGame(sessionID){
     
 
     //alert("Joining");
-    _socket = new WebSocket("ws://gentle-scrubland-69667.herokuapp.com");
+    _socket = new WebSocket("http://gentle-scrubland-69667.herokuapp.com");
 
     _socket.onopen = function() {
                     

@@ -132,7 +132,7 @@ class SessionList {
 * Servers
 ============================================================= */
 /* Express Server */
-/*
+
 const express = require('express');
 const WebSocket = require('ws');
 const http = require('http');
@@ -194,10 +194,10 @@ app.post("/game/create",  function(request, response) {
     "sessionID" : sesID
   }));
   
-});*/
+});
 
 
-
+/*
 const express = require('express');
 const WebSocket = require('ws');
 
@@ -264,7 +264,7 @@ app.post("/game/create",  function(request, response) {
     "sessionID" : sesID
   }));
   
-});
+});*/
 
 /* WebSocket Server */
 

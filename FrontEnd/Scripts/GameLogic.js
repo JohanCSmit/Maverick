@@ -22,7 +22,7 @@ function dead()
 
 function requestPermissions()
 {
-    alert("Put your phone on vibrate if you want vibration feedback")
+    //alert("Put your phone on vibrate if you want vibration feedback")
 
     if(typeof DeviceOrientationEvent.requestPermission === "function")
         DeviceOrientationEvent.requestPermission();
