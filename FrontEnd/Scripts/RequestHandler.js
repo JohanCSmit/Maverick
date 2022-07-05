@@ -42,7 +42,7 @@ function clickJoinGame() {
 function joinGame(sessionID){
 
     //alert("Joining");
-    var host = location.origin.replace(/^https/, 'wss')
+    var host = location.origin.replace(/^http/, 'ws')
     _socket = new WebSocket(host);
 
     _socket.onopen = function() {
