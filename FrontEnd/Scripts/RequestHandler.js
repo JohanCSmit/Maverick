@@ -12,10 +12,8 @@ function clickCreateGame() {
 
     var count = document.getElementById("numPlayersCreate").value;
     //Check if IOS then dont continue
-    if (!noIOS) {
-        document.getElementById("CreateGameError").value = "Field cannot be empty";
-    }
-    else if (count == ""){
+
+    if (count == ""){
          document.getElementById("CreateGameError").value = "Field cannot be empty";
     }else if (count > maxPlayers) {
         document.getElementById("CreateGameError").value = `Max players ${maxPlayers}`;
