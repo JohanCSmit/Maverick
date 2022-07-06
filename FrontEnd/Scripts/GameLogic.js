@@ -10,6 +10,7 @@ var track
 var noIOS = true
 var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
 var sensitivity = 5
+var baseSense = 5
 
 document.body.style.background = gradient[0];
 
@@ -39,7 +40,8 @@ function dead()
 
 function updateSensitivity(inSens)
 {
-    sensitivity = inSens;
+    sensitivity = inSens*baseSense;
+    //console.log(inSens)
 }
 
 function requestPermissions()
@@ -111,17 +113,17 @@ function requestPermissions()
         var mainAudioPlaying = false;
         var startTime;
         var currentTime;
-        var playBackRate;
+        var playBackRate = 1;
         var timer = 0;
         var today = new Date();
         
         function modifyTimer()
         {
             var today = new Date();
-            this.currentTime = today.getMinutes() * 60 + today.getSeconds();
-            if (this.currentTime - this.startTime > 0 & mainAudioPlaying) //we only want to change the time if it is at least 1 second
-                this.timer = this.timer + 1;
-            this.startTime = this.currentTime; //resets the time
+            currentTime = today.getMinutes() * 60 + today.getSeconds();
+            if (currentTime - startTime > 0 & mainAudioPlaying) //we only want to change the time if it is at least 1 second
+                timer = timer + 1;
+            startTime = currentTime; //resets the time
         }
             
         if (!running)
@@ -134,9 +136,11 @@ function requestPermissions()
             {
                 if (running)
                 {
+                    //console.log(timer);
                     requestAnimationFrame(renderFrame);
                     modifyTimer();
                     // elapsedTime = Math.trunc((currentTime - startTime) % mainAudio.duration);
+                    //console.log(timer);
                     switch (timer)
                     {
                         case 13:
@@ -170,9 +174,11 @@ function requestPermissions()
                             playBackRate = 1;
                             break
                     }
+                    //console.log("Here2")
+                    //console.log(playBackRate);
                     mainAudio.playbackRate = playBackRate;
+                    
                     sendSensitivity(playBackRate);
-                    console.log(timer);
                 }
             }
             renderFrame();
