@@ -39,7 +39,10 @@ function generateSession(playerCount = 5){
 
       //Check SessionID is unique
       while(sessions.find((session) => session.sessionId == sesId)){
-        sesId = ((Math.random() + 1).toString(36).substring(9)).toUpperCase();
+        sesId = ""
+        for (let index = 0; index < 4; index++) {
+          sesId += String.fromCharCode(Math.floor(Math.random() * (26)) + 65);
+        }
       }
 
       return sesId
