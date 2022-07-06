@@ -55,7 +55,7 @@ function findPlayer(ws,session){
   }
 }
 
-function addPlayerToSession(ws, sessionId){
+function addPlayerToSession(ws, sessionId, isHost){
   const session = findSession(ws, sessionId)
   if(session){
     console.log(session.players.length);
@@ -73,14 +73,24 @@ function addPlayerToSession(ws, sessionId){
         // Check player already joined
         const newPlayer = {
           ws: ws,
-          alive: true
+          alive: true,
+          isHost: isHost
+        }
+
+        //if a host already exists dont set another one 
+        if (newPlayer.isHost){
+          if (session.players.find((player) => player.isHost === true)){
+            console.log("Host already assigned");
+            newPlayer.isHost = false
+          }
         }
 
         session.players.push(newPlayer)
         console.log("Sending data");
+        
         ws.send(JSON.stringify({
-          "type" : "playerCount",
-          "status" : session.players.length
+          "type" : "isHost",
+          "status" : newPlayer.isHost
         }));
       }
     }
@@ -206,7 +216,7 @@ wss.on("connection", function(ws) {
 
     if (type == "join") {
       console.log("Attempt join");
-      addPlayerToSession(ws, obj.sessionID)
+      addPlayerToSession(ws, obj.sessionID, obj.isHost)
     }
     if (type == "start_game"){
       startGame(ws, obj.sessionID)
