@@ -1,7 +1,7 @@
 var _sessionID;
 var _socket;
 
-var debug = false;
+var debug = true;
 
 var _host;
 
@@ -47,8 +47,8 @@ function createGame(pCount){
 }
 
 function startGame(){
-    if (_isHost){
-        //console.log("Host Started Game");
+    if (_isHost == true){
+        console.log("Host Started Game thus _isHost is true")
         _socket.send(JSON.stringify({
             "type": "start_game",
             "sessionID" : localStorage.getItem("sessionID")
@@ -130,7 +130,11 @@ function joinGame(sessionID){
         const type = obj.type;
         //console.log(obj);
 
-        if (obj.type == "isHost") _isHost = true;
+        if (obj.type == "isHost") {
+            _isHost = obj.status
+            console.log("Host is");
+        }
+        ;
 
         if (obj.type == "win") alert("you won!!!");
 

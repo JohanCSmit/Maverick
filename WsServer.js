@@ -108,6 +108,7 @@ function addPlayerToSession(ws, sessionId, isHost){
 
         session.players.push(newPlayer)
         console.log("Sending data");
+        console.log(newPlayer.isHost);
         
         ws.send(JSON.stringify({
           "type" : "isHost",
