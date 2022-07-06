@@ -8,10 +8,17 @@ var _host;
 const maxPlayers = 5;
 const minPlayers = 2;
 
+const os = require('os');
+
 function clickCreateGame() {
 
     var count = document.getElementById("numPlayersCreate").value;
     //Check if IOS then dont continue
+    var platform = os.platform();
+    if (platform != "win32" && platform != "win64" && platform != "android"){
+        document.getElementById("PLATFORM_TEST").value = "The OS on this device is " + platform;
+        return;
+    }
 
     if (count == ""){
          document.getElementById("CreateGameError").value = "Field cannot be empty";
