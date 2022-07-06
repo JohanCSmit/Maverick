@@ -37,8 +37,8 @@ function dead()
 {
     dieSim();
 
-    if (_isHost) document.getElementById("PostGameHost").style = "display: show";
-    else document.getElementById("PostGame").style = "display: show";
+    if (_isHost) document.getElementById("PostGameHost").style = "display: show;";
+    else document.getElementById("PostGame").style = "display: show;";
 
     document.body.style.background = 'hsl(0,100%,50%)';
     window.removeEventListener("devicemotion", handleMotion)
@@ -101,6 +101,10 @@ function reset(){
 }
 
 function winning(){
+
+    if (_isHost) document.getElementById("PostGameHost").style = "display: show;";
+    else document.getElementById("PostGame").style = "display: show;";
+    
     //Remove previous event listeners
     window.removeEventListener("devicemotion", handleMotion)
     window.removeEventListener("deviceorientation", handleOrientation);
