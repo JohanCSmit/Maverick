@@ -21,11 +21,11 @@ function clickCreateGame() {
         document.getElementById("CreateGameError").value = `Max players ${maxPlayers}`;
     }else if (count < minPlayers){
         document.getElementById("CreateGameError").value = `Min players ${minPlayers}`;
-    }else if (device.toLowerCase() != "iphone" && device.toLowerCase() != "ipad"){
+    }else if (device.toLowerCase() == "iphone" || device.toLowerCase() == "ipad"){
+        alert("You may not create a game on an Apple device");
+    }else{
         console.log(count);
         createGame(count);
-    }else{
-        alert("You may not create a game on an Apple device");
     }
 }
 
