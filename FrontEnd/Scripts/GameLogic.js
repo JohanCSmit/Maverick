@@ -101,22 +101,23 @@ function reset(){
 }
 
 function winning(){
+
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
-    
+
     //Remove previous event listeners
     window.removeEventListener("devicemotion", handleMotion)
     window.removeEventListener("deviceorientation", handleOrientation);
 
     // If player died and is Host make reset button visible 
-    if(_isHost){
+    /*if(_isHost){
         document.getElementById("PostGameHost").hidden = "false";
         document.getElementById("PostGameMessageHost").textContent = "You Lost"
      }
      else{
          document.getElementById("PostGame").hidden = "false";
          document.getElementById("PostGameMessage").textContent = "You Lost"
-     }
+     }*/
 }
 
 function requestPermissions()
