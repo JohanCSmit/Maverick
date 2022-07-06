@@ -236,6 +236,10 @@ function musicHandler(){
         mainAudio = new Audio();
         mainAudio.src = 'https://res.cloudinary.com/dtd0lxvsg/video/upload/v1657093868/DustCropped_lyk92b.mp3';
         document.body.appendChild(mainAudio);
+
+        //mainAudio.play();
+        mainAudio.autoplay = true;
+        countDownAudio.autoplay = true;
         
         var running = false;
         var mainAudioPlaying = false;
