@@ -7,6 +7,8 @@
   <title>Maverick-Joust</title>
 
   <link href="../Styles/style.css" rel="stylesheet" />
+
+  <script src="../Scripts/RequestHandler.js"></script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,6 +45,14 @@
       <li>Norm: <span id="Gyroscope_norm">0</span><span>°/s</span></li>
     </ul>
 </main>
-<script src="../Scripts/GameLogic.js"></script>
+
+<button onclick="dieSim()"> Die </button>
+
+<script>
+  var _sessionID = localStorage.getItem("sessionID");
+  console.log(_sessionID);
+  joinGame(_sessionID);
+</script>
+
 </body>
 </html>

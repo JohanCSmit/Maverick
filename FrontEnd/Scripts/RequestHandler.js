@@ -1,7 +1,7 @@
 var _sessionID;
 var _socket;
 
-var debug = true;
+var debug = false;
 
 var _host;
 
@@ -26,7 +26,12 @@ function createGame(pCount){
         var obj = JSON.parse(this.responseText);
         //alert(obj.sessionID);
         _sessionID = obj.sessionID;
-        joinGame(obj.sessionID);
+        //joinGame(obj.sessionID);
+        localStorage.setItem("sessionID", obj.sessionID);
+
+        if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/HostWait.html");
+        else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/HostWait.html");
+
     }
     });
 
@@ -38,12 +43,20 @@ function createGame(pCount){
 
     xhr.send(data);
 
+
+
 }
 
 function clickJoinGame() {
     var sessionID = document.getElementById("sessionID").value;
     _sessionID = sessionID;
-    joinGame(sessionID);
+
+    //alert(sessionID);
+    localStorage.setItem("sessionID", sessionID);
+
+    if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/HostWait.html");
+    else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/HostWait.html");
+    //joinGame(sessionID);
 }
 
 function joinGame(sessionID){
@@ -52,7 +65,7 @@ function joinGame(sessionID){
 
     var host;
 
-    if (debug) host = location.origin.replace(/^file/, 'ws') + "localhost:8080"
+    if (debug) host = location.origin.replace(/^http/, 'ws')
     else host = location.origin.replace(/^http/, 'ws')
 
     console.log(host);
@@ -73,7 +86,27 @@ function joinGame(sessionID){
         const obj = JSON.parse(message.data);
         const type = obj.type;
         console.log(obj);
+
+        if (obj.type == "won") alert("you won!!!");
     }
 
-    localStorage.setItem("socket", _socket);
+    //localStorage.setItem("socket", JSON.stringify(_socket));
+
+    
+    
+    
 }
+
+function start() {
+    if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
+    else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
+}
+
+function dieSim() {
+    //var _socket = JSON.parse(localStorage.getItem("socket"));
+
+    _socket.send(JSON.stringify({
+        "type": "lose",
+        "sessionID" : localStorage.getItem("sessionID")
+    }));
+  }

@@ -19,7 +19,7 @@ function dead()
         "sessionID" : SessionID
     }));
 
-    alert("Dead");
+    //alert("Dead");
 }
 
 function requestPermissions()
