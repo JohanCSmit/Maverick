@@ -76,11 +76,11 @@ function findPlayer(ws,session){
   }
 }
 
-function addPlayerToSession(ws, sessionId){
+function addPlayerToSession(ws, sessionId, isHost){
   const session = findSession(ws, sessionId)
   if(session){
-    console.log(session.players.length);
-    console.log(session.maxPlayerCount);
+    //console.log(session.players.length);
+    //console.log(session.maxPlayerCount);
     if(session.players.length < session.maxPlayerCount){
       if(findPlayer(ws,session)){
         ws.send(JSON.stringify({
@@ -94,14 +94,25 @@ function addPlayerToSession(ws, sessionId){
         // Check player already joined
         const newPlayer = {
           ws: ws,
-          alive: true
+          alive: true,
+          isHost: isHost
+        }
+
+        //if a host already exists dont set another one 
+        if (newPlayer.isHost){
+          if (session.players.find((player) => player.isHost === true)){
+            console.log("Host Already Assigned");
+            newPlayer.isHost = false
+          }
         }
 
         session.players.push(newPlayer)
-        console.log("Sending data");
+        //console.log("Sending data");
+        //console.log(newPlayer.isHost);
+        
         ws.send(JSON.stringify({
-          "type" : "playerCount",
-          "status" : session.players.length
+          "type" : "isHost",
+          "status" : newPlayer.isHost
         }));
       }
     }
@@ -210,24 +221,25 @@ app.use(express.static(__dirname));
 var server = http.createServer(app)
 server.listen(port)
 
-console.log("http server listening on %d", port)
+console.log("HTTP Server Listening On: %d", port)
 
 var wss = new WebSocketServer({server: server})
-console.log("websocket server created")
+console.log("Websocket Werver Created")
 
 wss.on("connection", function(ws) {
 
-  console.log("someone connected");
+  //console.log("someone connected");
+  //my solution
 
   ws.on('message', function incoming(message) {
-  console.log('received: %s', message);
+  console.log('Websocket Received: %s', message);
 
     const obj = JSON.parse(message);
     const type = obj.type;
 
     if (type == "join") {
-      console.log("Attempt join");
-      addPlayerToSession(ws, obj.sessionID.toUpperCase());
+      //console.log("Attempt join");
+      addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
     }
     if (type == "start_game"){
       startGame(ws, obj.sessionID)
@@ -236,8 +248,8 @@ wss.on("connection", function(ws) {
       killPlayer(ws, obj.sessionID);
     }
     if (type == "sensitivity"){
-      console.log("Sensitivity :");
-      console.log(obj.sensitivity);
+      //console.log("Sensitivity :");
+      //console.log(obj.sensitivity);
       updateSensitivity(ws, obj.sessionID, obj.sensitivity)
     }
     
@@ -256,8 +268,7 @@ app.post("/game/create",  function(request, response) {
   const count = request.body.playerCount;
   var sesID = generateSession(count);
 
-  console.log(count);
-  console.log(sesID);
+  console.log("New Game with " + count + " Players Created: " + sesID);
 
   response.end(JSON.stringify({
     "sessionID" : sesID
@@ -271,7 +282,7 @@ app.post("/game/join",  function(request, response) {
 
   var sesID = request.body.sessionID;
   sesID = sesID.toUpperCase();
-  console.log("searching " + sesID);
+  //console.log("searching " + sesID);
   const session = findSessionHttp(sesID);
 
   if (session) {

@@ -1,9 +1,11 @@
 var _sessionID;
 var _socket;
 
-var debug = false;
+var debug = true;
 
 var _host;
+
+var _isHost = false;
 
 function clickCreateGame() {
     var count = document.getElementById("numPlayersCreate").value;
@@ -45,8 +47,8 @@ function createGame(pCount){
 }
 
 function startGame(){
-    if(localStorage.getItem("isHost") == "true"){
-        //console.log("Host Started Game");
+    if (_isHost == true){
+        console.log("Host Started Game thus _isHost is true")
         _socket.send(JSON.stringify({
             "type": "start_game",
             "sessionID" : localStorage.getItem("sessionID")
@@ -71,10 +73,6 @@ function clickJoinGame() {
             var obj = JSON.parse(this.responseText);
             if (obj.status == "success") {
                 localStorage.setItem("sessionID", sessionID);
-                // If admin local storage is already set thus dont overwrite it
-                if (localStorage.getItem("isHost") != "true") {
-                    localStorage.setItem("isHost", "false");
-                }
 
                 if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
                 else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
@@ -111,10 +109,17 @@ function joinGame(sessionID){
     _socket = new WebSocket(host);
 
     _socket.onopen = function() {
+        let isHost = false
+        
+        if (localStorage.getItem("isHost")){
+            isHost = true
+            localStorage.removeItem("isHost")
+        }
                     
         var obj = {
             "type": "join",
-            "sessionID": sessionID
+            "sessionID": sessionID,
+            "isHost": isHost
         }
 
         _socket.send(JSON.stringify(obj));
@@ -124,6 +129,12 @@ function joinGame(sessionID){
         const obj = JSON.parse(message.data);
         const type = obj.type;
         //console.log(obj);
+
+        if (obj.type == "isHost") {
+            _isHost = obj.status
+            console.log("Host is");
+        }
+        ;
 
         if (obj.type == "win") alert("you won!!!");
 
