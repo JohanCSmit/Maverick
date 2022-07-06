@@ -52,14 +52,6 @@ function dead()
     }
 
     // If player died and is Host make reset button visible 
-    if(_isHost){
-       document.getElementById("PostGameHost").hidden = "false";
-       document.getElementById("PostGameMessageHost").textContent = "You Lost"
-    }
-    else{
-        document.getElementById("PostGame").hidden = "false";
-        document.getElementById("PostGameMessage").textContent = "You Lost"
-    }
 
     //Exit fullscreen mode
     if (document.exitFullscreen)
@@ -85,11 +77,6 @@ function reset(){
    
     // Restart sensors
     startSensors();
-
-    //Make the game fullscreen
-    var elem = document.documentElement;
-    if (elem.requestFullscreen)
-        elem.requestFullscreen();
 
 }
 
