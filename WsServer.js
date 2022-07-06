@@ -215,7 +215,7 @@ wss.on("connection", function(ws) {
       killPlayer(ws, obj.sessionID);
     }
     if (type == "sencitivity"){
-      updateSencitivity(ws, obj.sessionID, obj.secitivity)
+      updateSensitivity(ws, obj.sessionID, obj.secitivity)
     }
     
   });
