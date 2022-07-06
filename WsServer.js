@@ -261,9 +261,6 @@ console.log("Websocket Werver Created")
 
 wss.on("connection", function(ws) {
 
-  //console.log("someone connected");
-  //my solution
-
   ws.on('message', function incoming(message) {
   
 

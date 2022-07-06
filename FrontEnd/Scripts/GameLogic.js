@@ -50,10 +50,11 @@ function updateSensitivity(inSens)
 
 function reset(){
     document.body.style.background = gradient[0];
+    document.getElementById("header").innerText = "Init to Winit";
 
     //Remove previous event listeners
-    if (element.getAttribute('devicemotion') !== 'true') window.removeEventListener("devicemotion", handleMotion)
-    if (element.getAttribute('deviceorientation') !== 'true')window.removeEventListener("deviceorientation", handleOrientation);
+    window.removeEventListener("devicemotion", handleMotion)
+    window.removeEventListener("deviceorientation", handleOrientation);
     // Restart sensors
     startSensors();
 
