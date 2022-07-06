@@ -8,8 +8,8 @@ var gyroNorm = 0
 var track
 var noIOS = true
 var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
-var sensitivity = 10
-var baseSense = 10
+var sensitivity = 8
+var baseSense = 8
 
 document.body.style.background = 'hsl(120,100%,50%)';
 const green = 120;
@@ -129,9 +129,9 @@ function requestPermissions()
     var elem = document.documentElement;
     if (elem.requestFullscreen)
         elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen)
-        elem.webkitRequestFullscreen();
-    } 
+    //else if (elem.webkitRequestFullscreen)
+    //    elem.webkitRequestFullscreen();
+    //} 
 
     //Take away request permission button
     document.getElementById("reqPerm").style.display="none";

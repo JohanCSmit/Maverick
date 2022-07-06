@@ -13,13 +13,22 @@
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">  
 </head>
 <body>
-  <main role="main" class="container bodyDiv">
-    <h1 id='header'>In it to win it!</h1>
 
-    <button onclick='startGame();' type='button' id='reqPerm'>Ready</button>
-    <button onclick='sendResetRequest();' type='button' id='resetButton' hidden='true'>Reset</button>
+  <!-- Will be displayed when the page is rendered initially  -->
+<div id="PreGame" class="bodyDiv" >
+
+  <h1>Ready Up!</h1>
+  <br>
+  <h2 id="SessionIDHeading"><h2>
+  <button onclick='startGame();' type='button' id='reqPerm'>Ready</button>
+
+</div>
+
+<!-- Will not be displayed when the page is rendered initially -->
+  <main id="Game" role="main" class="container bodyDiv" style="display: none;">
+    <h1 id='header'>In it to win it!</h1>
     
-    <br>
+    <!-- <br>
     <h4>Orientation</h4>
     <ul>
       <li>X-axis (β): <span id="Orientation_b">0</span><span>°</span></li>
@@ -41,10 +50,18 @@
       <li>Y-axis: <span id="Gyroscope_y">0</span><span>°/s</span></li>
       <li>Z-axis: <span id="Gyroscope_z">0</span><span>°/s</span></li>
       <li>Norm: <span id="Gyroscope_norm">0</span><span>°/s</span></li>
-    </ul>
+    </ul> -->
+    
+    <!-- <button onclick="dead()"> Die </button> -->
 </main>
 
-<button onclick="dead()"> Die </button>
+<!-- will not be displayed when the page is rendered -->
+<div id="PostGame" class="bodyDiv" style="display: none;">
+  
+  <h1>Reset?</h1>
+  <button onclick='sendResetRequest();' type='button' id='resetButton' hidden='true'>Reset</button>
+
+</div>
 
 <script src="../Scripts/RequestHandler.js"></script>
 <script src="../Scripts/GameLogic.js"></script>
