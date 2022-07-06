@@ -11,12 +11,16 @@ const minPlayers = 2;
 function clickCreateGame() {
 
     var count = document.getElementById("numPlayersCreate").value;
-    if (count == ""){
-         document.getElementById("error").value = "Field cannot be empty";
+    //Check if IOS then dont continue
+    if (!noIOS) {
+        document.getElementById("CreateGameError").value = "Field cannot be empty";
+    }
+    else if (count == ""){
+         document.getElementById("CreateGameError").value = "Field cannot be empty";
     }else if (count > maxPlayers) {
-        document.getElementById("error").value = `Max players ${maxPlayers}`;
+        document.getElementById("CreateGameError").value = `Max players ${maxPlayers}`;
     }else if (count < minPlayers){
-        document.getElementById("error").value = `Min players ${minPlayers}`;
+        document.getElementById("CreateGameError").value = `Min players ${minPlayers}`;
     }else{
         console.log(count);
         createGame(count);
