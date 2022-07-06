@@ -12,14 +12,17 @@ function clickCreateGame() {
 
     var count = document.getElementById("numPlayersCreate").value;
     //Check if IOS then dont continue
-
+    var appVersion = navigator.appVersion;
+    var device = name.substring(name.indexOf("(")+1, name.indexOf(";"));
+    
     if (count == ""){
          document.getElementById("CreateGameError").value = "Field cannot be empty";
     }else if (count > maxPlayers) {
         document.getElementById("CreateGameError").value = `Max players ${maxPlayers}`;
     }else if (count < minPlayers){
         document.getElementById("CreateGameError").value = `Min players ${minPlayers}`;
-    }else{
+    }else if (device.toLowerCase() != "iphone" && device.toLowerCase() != "ipad"){
+        alert("You may not create a game on an Apple device");
         console.log(count);
         createGame(count);
     }
