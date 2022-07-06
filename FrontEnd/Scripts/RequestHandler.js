@@ -5,10 +5,23 @@ var debug = false;
 
 var _host;
 
+const maxPlayers = 5;
+const minPlayers = 2;
+
 function clickCreateGame() {
+
     var count = document.getElementById("numPlayersCreate").value;
-    console.log(count);
-    createGame(count);
+    if (count == ""){
+         document.getElementById("error").value = "Field cannot be empty";
+    }else if (count > maxPlayers) {
+        document.getElementById("error").value = `Max players ${maxPlayers}`;
+    }else if (count < minPlayers){
+        document.getElementById("error").value = `Min players ${minPlayers}`;
+    }else{
+        console.log(count);
+        createGame(count);
+    }
+
 }
 
 function createGame(pCount){
@@ -49,6 +62,11 @@ function createGame(pCount){
 
 function clickJoinGame() {
     var sessionID = document.getElementById("sessionID").value;
+    
+    if (sessionID.trim() == ""){
+        document.getElementById("error").value = "Field cannot be empty";
+        return;
+   }
     _sessionID = sessionID;
 
     //alert(sessionID);
