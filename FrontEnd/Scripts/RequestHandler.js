@@ -87,7 +87,7 @@ function joinGame(sessionID){
         const type = obj.type;
         console.log(obj);
 
-        if (obj.type == "won") alert("you won!!!");
+        if (obj.type == "win") alert("you won!!!");
     }
 
     //localStorage.setItem("socket", JSON.stringify(_socket));
