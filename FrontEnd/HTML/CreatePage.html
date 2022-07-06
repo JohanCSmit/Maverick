@@ -10,7 +10,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="bodyDiv">
@@ -19,8 +19,11 @@
 
         <label for="numPlayersCreate">Number of players</label>
         <br>
-        <input type="number" id="numPlayersCreate" name="numPlayers" class="textInput" placeholder="Please enter the number of players">
+        <input type="number" id="numPlayersCreate" name="numPlayers" class="textInput" required placeholder="Please enter the number of players" value="2">
 
+        <br>
+        <output type="text" value="" id="error" style="color: red; font-size: x-small; vertical-align: baseline; text-align: left !important; width: 100% !important;"></output>
+        <br>
         <!--form action="HostWait.html"-->
             <input type="submit" value="Create" onclick="clickCreateGame()"/>
         <!--/form-->

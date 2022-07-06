@@ -6,7 +6,7 @@ button, input[type="button"], input[type="submit"] {
    color: white; 
    border-radius: 6px; 
    border: 0px solid; 
-   width: 20%; 
+   width: 50%; 
    height: 40px;
 }
 
@@ -14,7 +14,10 @@ button, input[type="button"], input[type="submit"] {
     width: 100%; 
     text-align: center; 
     padding-top: 0%;
-    font-family: 'Inter', sans-serif;
+    font-family: 'VT323', sans-serif;
+    font-size: xx-large;
+    text-shadow: 1px 1px  #E9202A, -1px -1px  turquoise;
+
 }
 
 .logo {
@@ -35,4 +38,8 @@ button, input[type="button"], input[type="submit"] {
 
 h1 {
     text-align: center;
+}
+
+input:invalid {
+    border: 1px solid red;
 }

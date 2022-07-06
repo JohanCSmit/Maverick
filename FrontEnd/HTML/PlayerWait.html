@@ -3,35 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" /> 
-  
-  <title> Maverick-Joust </title>
 
-  <link href="./FrontEnd/Styles/style.css" rel="stylesheet"/>
-  
+  <title>Maverick-Joust</title>
+
+  <link href="../Styles/style.css" rel="stylesheet" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-  <script src=""></script>
 </head>
 <body>
+    <div class="bodyDiv">
+        <a href="../../index.html"><img src="../Resources/logo.png" class="logo"/></a>
+        <h1>Player Wait</h1>
 
-  <div class="bodyDiv">
+        <div style="width: 100%; margin-bottom: 5%;">
+            <label for="numPlayers">Number of players joined</label>
+            <output type="number" id="numPlayers" name="numPlayers">0</output>
+        </div>
 
-    <a href="index.html"><img src="./FrontEnd/Resources/logo.png" class="logo"/></a>
-    
-    <h1 style="text-align: center;">MAVERICK JOUST</h1>
-    
-    <form action="./FrontEnd/HTML/CreatePage.html">
-      <input type="submit" value="Create"/>
-    </form>
+        
 
-    <form action="./FrontEnd/HTML/JoinPage.html">
-      <input type="submit" value="Join" />
-    </form>
+    </div>
+    <script src="../Scripts/RequestHandler.js"></script>
 
-  </div>  
-
-  <!-- START Background animation-->
+      <!-- START Background animation-->
 
   <div class="stars">
     <div class="star"></div>
@@ -87,6 +83,5 @@
   </div>
 
   <!-- END -->
-
 </body>
 </html>
