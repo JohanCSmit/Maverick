@@ -22,9 +22,10 @@ function clickCreateGame() {
     }else if (count < minPlayers){
         document.getElementById("CreateGameError").value = `Min players ${minPlayers}`;
     }else if (device.toLowerCase() != "iphone" && device.toLowerCase() != "ipad"){
-        alert("You may not create a game on an Apple device");
         console.log(count);
         createGame(count);
+    }else{
+        alert("You may not create a game on an Apple device");
     }
 }
 
