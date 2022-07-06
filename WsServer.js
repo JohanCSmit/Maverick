@@ -261,21 +261,21 @@ wss.on("connection", function(ws) {
     if (type == "join") {
       //console.log("Attempt join");
       addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
-      if (_spectator) spectate(obj.sessionID);
+      if (_spectator) spectate(obj.sessionID.toUpperCase());
     }
     if (type == "start_game"){
       startGame(ws, obj.sessionID.toUpperCase())
     }
     if (type == "lose") {
       killPlayer(ws, obj.sessionID.toUpperCase());
-      if (_spectator) spectate(obj.sessionID);
+      if (_spectator) spectate(obj.sessionID.toUpperCase());
     }
     if (type == "sensitivity"){
       updateSensitivity(ws, obj.sessionID.toUpperCase(), obj.sensitivity)
     }
     else if (type == "spectate") {
       _spectator = ws;
-      spectate(obj.sessionID);
+      spectate(obj.sessionID.toUpperCase());
     }
     
   });
