@@ -82,10 +82,6 @@ function reset(){
     if (_isHost) document.getElementById("PostGameHost").style = "display: none";
     else document.getElementById("PostGame").style = "display: none";
    
-
-    //Remove previous event listeners
-    window.removeEventListener("devicemotion", handleMotion)
-    window.removeEventListener("deviceorientation", handleOrientation);
     // Restart sensors
     startSensors();
 
@@ -93,10 +89,6 @@ function reset(){
     var elem = document.documentElement;
     if (elem.requestFullscreen)
         elem.requestFullscreen();
-    //else if (elem.webkitRequestFullscreen)
-    //    elem.webkitRequestFullscreen(); 
-
-    //document.getElementById("resetButton").hidden = true;
 
 }
 
