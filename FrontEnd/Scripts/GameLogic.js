@@ -98,11 +98,19 @@ function reset(){
 }
 
 function winning(){
-    alert("You won")
+    //Remove previous event listeners
+    window.removeEventListener("devicemotion", handleMotion)
+    window.removeEventListener("deviceorientation", handleOrientation);
 
+    // If player died and is Host make reset button visible 
     if(_isHost){
-        document.getElementById("resetButton").hidden = false;
-    }
+        document.getElementById("PostGameHost").hidden = "false";
+        document.getElementById("PostGameMessageHost").textContent = "You Lost"
+     }
+     else{
+         document.getElementById("PostGame").hidden = "false";
+         document.getElementById("PostGameMessage").textContent = "You Lost"
+     }
 }
 
 function requestPermissions()
