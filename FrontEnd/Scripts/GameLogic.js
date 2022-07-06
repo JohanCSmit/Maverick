@@ -35,6 +35,35 @@ function dead()
         document.webkitExitFullscreen();
 
 	dieSim();
+
+    // If player died and is Host make reset button visible 
+    if(localStorage.getItem("isHost") == "true"){
+        document.getElementById("resetButton").hidden = false;
+    }
+}
+
+function reset(){
+    document.body.style.background = gradient[0];
+    // Restart sensors
+    startSensors();
+
+    //Make the game fullscreen
+    var elem = document.documentElement;
+    if (elem.requestFullscreen)
+        elem.requestFullscreen();
+    else if (elem.webkitRequestFullscreen)
+        elem.webkitRequestFullscreen(); 
+
+    document.getElementById("resetButton").hidden = true;
+
+}
+
+function winning(){
+    alert("You won")
+
+    if(localStorage.getItem("isHost") == "true"){
+        document.getElementById("resetButton").hidden = false;
+    }
 }
 
 function requestPermissions()

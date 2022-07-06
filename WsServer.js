@@ -116,19 +116,27 @@ function killPlayer(ws, sessionId){
 function checkGameOver(session){
   if(session.alivePlayerCount() <= 1){
     const winner = session.players.find((player) => player.alive == true)
-      // Message sent to losers
+      // Message sent to loser
       for (let index = 0; index < session.players.length; index++) {
         var element = session.players[index];
-        if (element.ws == winner.ws){
-          element.ws.send(JSON.stringify({
-            "type" : "win",
-            "status" : "Wel done you are slightly above averagre compared to the rest"
-          }));
+        if (winner){
+          if (element.ws == winner.ws){
+            element.ws.send(JSON.stringify({
+              "type" : "win",
+              "status" : "Wel done you are slightly above averagre compared to the rest"
+            }));
+          }
+          else{
+            element.ws.send(JSON.stringify({
+              "type" : "lose",
+              "status" : "Mission failed.. We'll get them next time troops"
+            }));
+          }
         }
         else{
           element.ws.send(JSON.stringify({
             "type" : "lose",
-            "status" : "Mission failed.. We'll get them next time troops"
+            "status" : "there is no winner"
           }));
         }
       }
@@ -142,6 +150,20 @@ function startGame(ws, sessionId){
       var element = session.players[index];
       element.ws.send(JSON.stringify({
         "type" : "start"
+      }));
+    }
+  }
+}
+
+function resetGame(ws, sessionId){
+  const session = findSession(ws,sessionId)
+  if(session){
+    for (let index = 0; index < session.players.length; index++) {
+      var element = session.players[index];
+      //Set player alive prop to true
+      element.alive = true
+      element.ws.send(JSON.stringify({
+        "type" : "reset"
       }));
     }
   }
@@ -190,16 +212,21 @@ wss.on("connection", function(ws) {
 
     const obj = JSON.parse(message);
     const type = obj.type;
+    const sessionID = obj.sessionID;
 
     if (type == "join") {
       console.log("Attempt join");
-      addPlayerToSession(ws, obj.sessionID)
+      addPlayerToSession(ws, sessionID)
     }
     if (type == "start_game"){
-      startGame(ws, obj.sessionID)
+      startGame(ws, sessionID)
     }
-    else if (type == "lose") {
-      killPlayer(ws, obj.sessionID);
+    if (type == "lose") {
+      killPlayer(ws, sessionID);
+    }
+    if (type == "reset") {
+      console.log("Resetting");
+      resetGame(ws, sessionID)
     }
     
   });

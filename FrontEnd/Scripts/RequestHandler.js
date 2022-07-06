@@ -98,24 +98,15 @@ function joinGame(sessionID){
         const type = obj.type;
         console.log(obj);
 
-        if (obj.type == "win") alert("you won!!!");
+        if (obj.type == "win") winning()
 
         if (obj.type == "start") startSensors();
+
+        //reset Game state
+        if (obj.type == "reset") reset();
     }
 
-    //localStorage.setItem("socket", JSON.stringify(_socket));
-
-    
-    
-    
 }
-
-// function start() {
-//     localStorage.setItem("isHost", true)
-
-//     if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
-//     else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
-// }
 
 function dieSim() {
     //var _socket = JSON.parse(localStorage.getItem("socket"));
@@ -125,3 +116,12 @@ function dieSim() {
         "sessionID" : localStorage.getItem("sessionID")
     }));
   }
+
+function sendResetRequest(){
+    if(localStorage.getItem("isHost") == "true"){
+        _socket.send(JSON.stringify({
+            "type": "reset",
+            "sessionID" : localStorage.getItem("sessionID")
+        }));
+    }
+}
