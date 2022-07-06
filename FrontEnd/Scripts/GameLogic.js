@@ -12,18 +12,26 @@ var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
 var sensitivity = 5
 var baseSense = 5
 
-document.body.style.background = gradient[0];
+document.body.style.background = 'hsl(120,100%,50%)';
+const green = 120;
 
-function dead()
-{
-    document.body.style.background = gradient[4];
+function changeGradient(acceleration, minValue, maxValue) {
+
+    grad = Math.abs((acceleration / maxValue) * green - green);
+    console.log(grad);
+
+    document.body.style.background = `hsl(${grad},100%,50%)`;
+
+}
+
+function dead() {
+    document.body.style.background = 'hsl(0,100%,50%)';
     window.removeEventListener("devicemotion", handleMotion)
     window.removeEventListener("deviceorientation", handleOrientation);
 
     //IOS compatibility
-    if(noIOS)
-    {
-        track.applyConstraints({advanced: [{torch: false}]});    
+    if (noIOS) {
+        track.applyConstraints({ advanced: [{ torch: false }] });
         window.navigator.vibrate(750);
     }
 
@@ -35,80 +43,76 @@ function dead()
     else if (document.webkitExitFullscreen)
         document.webkitExitFullscreen();
 
-	dieSim();
+    dieSim();
 }
 
-function updateSensitivity(inSens)
-{
-    sensitivity = inSens*baseSense;
+function updateSensitivity(inSens) {
+    sensitivity = inSens * baseSense;
     //console.log(inSens)
 }
 
-function requestPermissions()
-{
+function requestPermissions() {
     //IOS Compatibility
-    if(noIOS)
-    {
+    if (noIOS) {
         alert("Put your phone on vibrate if you want vibration feedback")
 
         //Test browser support for flashlight
         const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
         if (SUPPORTS_MEDIA_DEVICES) {
-        //Get the environment camera
-        navigator.mediaDevices.enumerateDevices().then(devices => {
-            const cameras = devices.filter((device) => device.kind === 'videoinput');
+            //Get the environment camera
+            navigator.mediaDevices.enumerateDevices().then(devices => {
+                const cameras = devices.filter((device) => device.kind === 'videoinput');
 
-            if (cameras.length === 0)
-                throw 'No camera found on this device.';
-                
-            const camera = cameras[cameras.length - 1];
+                if (cameras.length === 0)
+                    throw 'No camera found on this device.';
 
-            // Create stream and get video track
-            navigator.mediaDevices.getUserMedia({
-            video: {
-                deviceId: camera.deviceId,
-                facingMode: ['user', 'environment'],
-                height: {ideal: 1080},
-                width: {ideal: 1920}
-            }
-            }).then(stream => {
-                track = stream.getVideoTracks()[0];
-                track.applyConstraints({advanced: [{torch: true}]});
+                const camera = cameras[cameras.length - 1];
+
+                // Create stream and get video track
+                navigator.mediaDevices.getUserMedia({
+                    video: {
+                        deviceId: camera.deviceId,
+                        facingMode: ['user', 'environment'],
+                        height: { ideal: 1080 },
+                        width: { ideal: 1920 }
+                    }
+                }).then(stream => {
+                    track = stream.getVideoTracks()[0];
+                    track.applyConstraints({ advanced: [{ torch: true }] });
+                });
             });
-        });
 
-        noSleep.enable();
+            noSleep.enable();
+        }
+
+        //Motion permissions on IOS
+        if (typeof DeviceOrientationEvent.requestPermission === "function")
+            DeviceOrientationEvent.requestPermission();
+
+        //Make the game fullscreen
+        var elem = document.documentElement;
+        if (elem.requestFullscreen)
+            elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen)
+            elem.webkitRequestFullscreen();
     }
 
-    //Motion permissions on IOS
-    if(typeof DeviceOrientationEvent.requestPermission === "function")
-        DeviceOrientationEvent.requestPermission();
-
-    //Make the game fullscreen
-    var elem = document.documentElement;
-    if (elem.requestFullscreen)
-        elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen)
-        elem.webkitRequestFullscreen();
-    } 
-
     //Take away request permission button
-    document.getElementById("reqPerm").style.display="none";
+    document.getElementById("reqPerm").style.display = "none";
 
     //Music for host
     var isHost = localStorage.getItem("isHost");
-    if(isHost == "true")
-    {
+    if (isHost == "true") {
         var countDownAudio, mainAudio, currentTime, startTime;
-        
+
         countDownAudio = new Audio();
         countDownAudio.src = 'https://res.cloudinary.com/dtd0lxvsg/video/upload/v1657094095/321Kratos_ncov62.mp3';
         document.body.appendChild(countDownAudio);
-        
+
         mainAudio = new Audio();
         mainAudio.src = 'https://res.cloudinary.com/dtd0lxvsg/video/upload/v1657093868/DustCropped_lyk92b.mp3';
         document.body.appendChild(mainAudio);
-        
+
         var running = false;
         var mainAudioPlaying = false;
         var startTime;
@@ -116,33 +120,28 @@ function requestPermissions()
         var playBackRate = 1;
         var timer = 0;
         var today = new Date();
-        
-        function modifyTimer()
-        {
+
+        function modifyTimer() {
             var today = new Date();
             currentTime = today.getMinutes() * 60 + today.getSeconds();
             if (currentTime - startTime > 0 & mainAudioPlaying) //we only want to change the time if it is at least 1 second
                 timer = timer + 1;
             startTime = currentTime; //resets the time
         }
-            
-        if (!running)
-        {
+
+        if (!running) {
             running = true;
             startTime = today.getMinutes() * 60 + today.getSeconds();
             countDownAudio.play();
-    
-            function renderFrame()
-            {
-                if (running)
-                {
+
+            function renderFrame() {
+                if (running) {
                     //console.log(timer);
                     requestAnimationFrame(renderFrame);
                     modifyTimer();
                     // elapsedTime = Math.trunc((currentTime - startTime) % mainAudio.duration);
                     //console.log(timer);
-                    switch (timer)
-                    {
+                    switch (timer) {
                         case 13:
                             playBackRate = 1.2;
                             mainAudio.playbackRate = playBackRate;
@@ -199,77 +198,73 @@ function requestPermissions()
                 }
             }
             renderFrame();
-        }
-        else
-        {
+        } else {
             mainAudio.pause();
             mainAudioPlaying = false;
             running = false;
         }
-        
+
         mainAudio.onended = function() {
             mainAudio.play();
         }
-        
+
         countDownAudio.onended = function() {
             mainAudioPlaying = true;
             mainAudio.play();
-        } 
+        }
     }
 }
 
-function startSensors(){
-    setTimeout(function(){
+function startSensors() {
+    setTimeout(function() {
         console.log("Sensors Started");
         window.addEventListener("devicemotion", handleMotion)
         window.addEventListener("deviceorientation", handleOrientation)
     }, 1000);
 }
 
-function updateFieldIfNotNull(fieldName, value, precision=10)
-{
+function updateFieldIfNotNull(fieldName, value, precision = 10) {
     if (value != null)
         document.getElementById(fieldName).innerHTML = value.toFixed(precision);
 }
 
-function handleMotion(event)
-{
+function handleMotion(event) {
     updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
     updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
     updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
-    accNorm = Math.sqrt(Math.pow(event.acceleration.x,2) + Math.pow(event.acceleration.y,2) + Math.pow(event.acceleration.z,2));
+    accNorm = Math.sqrt(Math.pow(event.acceleration.x, 2) + Math.pow(event.acceleration.y, 2) + Math.pow(event.acceleration.z, 2));
     updateFieldIfNotNull('Accelerometer_norm', accNorm);
 
     updateFieldIfNotNull('Gyroscope_z', event.rotationRate.alpha);
     updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
     updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
-    gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha,2) + Math.pow(event.rotationRate.beta,2) + Math.pow(event.rotationRate.gamma,2));
+    gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha, 2) + Math.pow(event.rotationRate.beta, 2) + Math.pow(event.rotationRate.gamma, 2));
     updateFieldIfNotNull('Gyroscope_norm', gyroNorm);
 
-    if(eventNum === 0)
-        if(accNorm >= sensitivity)
+    changeGradient(accNorm, 0, sensitivity);
+
+    if (eventNum === 0)
+        if (accNorm >= sensitivity)
             dead();
-    else if(eventNum === 1)
-        if(accNorm >= sensitivity*1.5)
+        else if (eventNum === 1)
+        if (accNorm >= sensitivity * 1.5)
             dead();
 }
 
-function handleOrientation(event)
-{
+function handleOrientation(event) {
     updateFieldIfNotNull('Orientation_a', event.alpha);
     updateFieldIfNotNull('Orientation_b', event.beta);
     updateFieldIfNotNull('Orientation_g', event.gamma);
 
-    if(eventNum === 1)
-    {
+    if (eventNum === 1) {
         var diff = Math.abs(90 - event.beta);
-        if(diff >= 40)
+        if (diff >= 40)
             dead();
-        else if(diff >= 30)
+        else if (diff >= 30)
             document.body.style.background = gradient[3];
-        else if(diff >= 20)
+        else if (diff >= 20)
             document.body.style.background = gradient[2];
-        else if(diff >= 10)
+        else if (diff >= 10)
             document.body.style.background = gradient[1];
         else
             document.body.style.background = gradient[0];
