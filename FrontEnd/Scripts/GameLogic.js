@@ -8,8 +8,8 @@ var gyroNorm = 0
 var track
 var noIOS = true
 var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
-var sensitivity = 5
-var baseSense = 5
+var sensitivity = 10
+var baseSense = 10
 
 document.body.style.background = 'hsl(120,100%,50%)';
 const green = 120;
@@ -167,6 +167,8 @@ function handleMotion(event)
     updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
     gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha,2) + Math.pow(event.rotationRate.beta,2) + Math.pow(event.rotationRate.gamma,2));
     updateFieldIfNotNull('Gyroscope_norm', gyroNorm);
+
+    changeGradient(accNorm, 0, sensitivity);
 
     if(eventNum === 0)
         if(accNorm >= sensitivity)
