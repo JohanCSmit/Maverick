@@ -27,7 +27,7 @@ function createGame(pCount){
         _sessionID = obj.sessionID;
         //joinGame(obj.sessionID);
         localStorage.setItem("sessionID", obj.sessionID);
-        localStorage.setItem("isHost", true);
+        localStorage.setItem("isHost", "true");
 
         if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
         else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
@@ -60,15 +60,42 @@ function clickJoinGame() {
     var sessionID = document.getElementById("sessionID").value;
     _sessionID = sessionID;
 
-    //alert(sessionID);
-    localStorage.setItem("sessionID", sessionID);
-    // If admin local storage is already set thus dont overwrite it
-    if (localStorage.getItem("isHost") === null) {
-        localStorage.setItem("isHost", false);
-    }
+    var data = "sessionID="+sessionID;
 
-    if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
-    else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
+    var xhr = new XMLHttpRequest();
+    //xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function() {
+    if(this.readyState === 4) {
+            //alert(sessionID);
+            var obj = JSON.parse(this.responseText);
+            if (obj.status == "success") {
+                localStorage.setItem("sessionID", sessionID);
+                // If admin local storage is already set thus dont overwrite it
+                if (localStorage.getItem("isHost") != "true") {
+                    localStorage.setItem("isHost", "false");
+                }
+
+                if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
+                else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
+            }
+            else {
+                alert("Session Not Found!");
+            }
+            
+        }
+    });
+
+    if (debug) _host = "http://localhost:8080";
+    else _host = "https://gentle-scrubland-69667.herokuapp.com";
+
+    xhr.open("POST", _host +"/game/join", false);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    console.log(data);
+    xhr.send(data);
+
+    
     //joinGame(sessionID);
 }
 
