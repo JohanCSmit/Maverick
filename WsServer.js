@@ -261,7 +261,7 @@ wss.on("connection", function(ws) {
     if (type == "join") {
       //console.log("Attempt join");
       addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
-      if (_spectator) spectate(obj.sessionID.toUpperCase());
+      if (_spectator) spectate(obj.sessionID.toUpperCase()); 
     }
     if (type == "start_game"){
       startGame(ws, obj.sessionID.toUpperCase())
