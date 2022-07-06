@@ -153,7 +153,7 @@ function updateSensitivity(ws, sessionId, sensitivity){
     for (let index = 0; index < session.players.length; index++) {
       var element = session.players[index];
       element.ws.send(JSON.stringify({
-        "type" : "sencitivity",
+        "type" : "sensitivity",
         "status": sensitivity
       }));
     }
@@ -214,8 +214,10 @@ wss.on("connection", function(ws) {
     if (type == "lose") {
       killPlayer(ws, obj.sessionID);
     }
-    if (type == "sencitivity"){
-      updateSensitivity(ws, obj.sessionID, obj.secitivity)
+    if (type == "sensitivity"){
+      console.log("Sensitivity :");
+      console.log(obj.sensitivity);
+      updateSensitivity(ws, obj.sessionID, obj.sensitivity)
     }
     
   });
