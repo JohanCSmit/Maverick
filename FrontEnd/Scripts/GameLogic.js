@@ -75,6 +75,14 @@ function updateSensitivity(inSens)
 function reset(){
     if (_isHost) resetMusic();
     document.body.style.background = 'hsl(120,100%,50%)';
+
+    eventNum = 0
+    accNorm = 0
+    gyroNorm = 0
+
+    gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
+    sensitivity = 8
+    baseSense = 8
     
     //Hide notification div
     if (_isHost) document.getElementById("PostGameHost").style = "display: none";
