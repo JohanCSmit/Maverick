@@ -3,7 +3,6 @@
 //1: Acc on 1.5xSens, and 40 deg tilt
 var eventNum = 0
 
-var noSleep = new NoSleep();
 var accNorm = 0
 var gyroNorm = 0
 var track
@@ -76,8 +75,6 @@ function requestPermissions()
                 track.applyConstraints({advanced: [{torch: true}]});
             });
         });
-
-        noSleep.enable();
     }
 
     //Motion permissions on IOS
