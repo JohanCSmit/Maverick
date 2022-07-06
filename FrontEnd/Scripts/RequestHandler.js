@@ -45,7 +45,7 @@ function createGame(pCount){
 }
 
 function startGame(){
-    if(localStorage.getItem("isHost")){
+    if(localStorage.getItem("isHost") == "true"){
         console.log("Host Started Game");
         _socket.send(JSON.stringify({
             "type": "start_game",
