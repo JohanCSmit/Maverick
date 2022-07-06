@@ -68,7 +68,7 @@ function updateSensitivity(inSens)
 }
 
 function reset(){
-    resetMusic();
+    if (_isHost) resetMusic();
     document.body.style.background = 'hsl(120,100%,50%)';
     
     //Hide notification div
