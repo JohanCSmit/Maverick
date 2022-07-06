@@ -56,6 +56,26 @@ function findPlayer(ws,session){
   }
 }
 
+function findSessionHttp(sessionId){
+  const session = sessions.find((session) => session.sessionId == sessionId)
+  if(!session){
+    return null;
+  }
+  else{
+    return session
+  }
+}
+
+function findPlayer(ws,session){
+  const player = session.players.find((player) => player.ws == ws)
+  if(!player){
+    return
+  }
+  else{
+    return player
+  }
+}
+
 function addPlayerToSession(ws, sessionId){
   const session = findSession(ws, sessionId)
   if(session){
@@ -248,7 +268,7 @@ app.post("/game/create",  function(request, response) {
 app.post("/game/join",  function(request, response) {
 
   const sesID = request.body.sessionID;
-  const session = findSession(_socket, sesID);
+  const session = findSessionHttp(sesID);
 
   if (session) {
     response.end(JSON.stringify({
