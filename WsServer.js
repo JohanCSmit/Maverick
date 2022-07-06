@@ -1,5 +1,5 @@
 const sessions = []
-// Gernerates new session, adds to sessions list and returns sessionId
+
 function generateSession(playerCount = 5){
   let session = {
     players: [],
@@ -20,7 +20,6 @@ function generateSession(playerCount = 5){
       //Check SessionID is unique
       while(sessions.find((session) => session.sessionId == sesId)){
         sesId = ((Math.random() + 1).toString(36).substring(9)).toUpperCase();
-
       }
 
       return sesId
@@ -242,15 +241,15 @@ wss.on("connection", function(ws) {
       addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
     }
     if (type == "start_game"){
-      startGame(ws, obj.sessionID)
+      startGame(ws, obj.sessionID.toUpperCase())
     }
     if (type == "lose") {
-      killPlayer(ws, obj.sessionID);
+      killPlayer(ws, obj.sessionID.toUpperCase());
     }
     if (type == "sensitivity"){
       //console.log("Sensitivity :");
       //console.log(obj.sensitivity);
-      updateSensitivity(ws, obj.sessionID, obj.sensitivity)
+      updateSensitivity(ws, obj.sessionID.toUpperCase(), obj.sensitivity)
     }
     
   });

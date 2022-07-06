@@ -128,14 +128,13 @@ function joinGame(sessionID){
     _socket.onmessage = function(message) {
         const obj = JSON.parse(message.data);
         const type = obj.type;
-        //console.log(obj);
+        console.log(obj);
 
         if (obj.type == "isHost") {
             _isHost = obj.status
             console.log("Host is");
         }
-        ;
-
+        
         if (obj.type == "win") alert("you won!!!");
 
         if (obj.type == "start") startSensors();
