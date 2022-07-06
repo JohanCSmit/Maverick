@@ -62,7 +62,7 @@ function findSessionHttp(sessionId){
     return null;
   }
   else{
-    return session
+    return session;
   }
 }
 
@@ -267,7 +267,8 @@ app.post("/game/create",  function(request, response) {
 
 app.post("/game/join",  function(request, response) {
 
-  const sesID = request.body.sessionID;
+  const sesID = request.body.sessionID.toUpperCase();
+  console.log("searching " + sesID);
   const session = findSessionHttp(sesID);
 
   if (session) {
