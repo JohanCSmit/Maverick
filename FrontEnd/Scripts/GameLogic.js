@@ -14,12 +14,7 @@ function dead()
     document.getElementById("header").innerText = "You lost";
     window.navigator.vibrate(750);
 
-    _socket.send(JSON.stringify({
-        "type": "lose",
-        "sessionID" : SessionID
-    }));
-
-    //alert("Dead");
+    dieSim();
 }
 
 function requestPermissions()
