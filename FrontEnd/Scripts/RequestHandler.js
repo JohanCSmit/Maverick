@@ -1,7 +1,7 @@
 var _sessionID;
 var _socket;
 
-var debug = false;
+var debug = false; 
 
 var _host;
 
