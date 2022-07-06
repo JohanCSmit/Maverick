@@ -10,6 +10,7 @@ var track
 var noIOS = true
 var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
 var sensitivity = 5
+var baseSense = 5
 
 document.body.style.background = gradient[0];
 
@@ -35,6 +36,12 @@ function dead()
         document.webkitExitFullscreen();
 
 	dieSim();
+}
+
+function updateSensitivity(inSens)
+{
+    sensitivity = inSens*baseSense;
+    //console.log(inSens)
 }
 
 function requestPermissions()
@@ -88,7 +95,110 @@ function requestPermissions()
     //Take away request permission button
     document.getElementById("reqPerm").style.display="none";
 
-    //Wait for flashlight to turn on
+    //Music for host
+    var isHost = localStorage.getItem("isHost");
+    if(isHost == "true")
+    {
+        var countDownAudio, mainAudio, currentTime, startTime;
+        
+        countDownAudio = new Audio();
+        countDownAudio.src = 'https://res.cloudinary.com/dtd0lxvsg/video/upload/v1657094095/321Kratos_ncov62.mp3';
+        document.body.appendChild(countDownAudio);
+        
+        mainAudio = new Audio();
+        mainAudio.src = 'https://res.cloudinary.com/dtd0lxvsg/video/upload/v1657093868/DustCropped_lyk92b.mp3';
+        document.body.appendChild(mainAudio);
+        
+        var running = false;
+        var mainAudioPlaying = false;
+        var startTime;
+        var currentTime;
+        var playBackRate = 1;
+        var timer = 0;
+        var today = new Date();
+        
+        function modifyTimer()
+        {
+            var today = new Date();
+            currentTime = today.getMinutes() * 60 + today.getSeconds();
+            if (currentTime - startTime > 0 & mainAudioPlaying) //we only want to change the time if it is at least 1 second
+                timer = timer + 1;
+            startTime = currentTime; //resets the time
+        }
+            
+        if (!running)
+        {
+            running = true;
+            startTime = today.getMinutes() * 60 + today.getSeconds();
+            countDownAudio.play();
+    
+            function renderFrame()
+            {
+                if (running)
+                {
+                    //console.log(timer);
+                    requestAnimationFrame(renderFrame);
+                    modifyTimer();
+                    // elapsedTime = Math.trunc((currentTime - startTime) % mainAudio.duration);
+                    //console.log(timer);
+                    switch (timer)
+                    {
+                        case 13:
+                            playBackRate = 1.2;
+                            break;
+                        case 18:
+                            playBackRate = 1;
+                            break;
+                        case 28:
+                            playBackRate = 0.8;
+                            break;
+                        case 34:
+                            playBackRate = 1;
+                            break;
+                        case 40:
+                            playBackRate = 1.4;
+                            break;
+                        case 46:
+                            playBackRate = 1;
+                            break;
+                        case 49:
+                            playBackRate = 0.6;
+                            break;
+                        case 55:
+                            playBackRate = 1;
+                            break;
+                        case 67:
+                            playBackRate = 1.3;
+                            break;
+                        case 73:
+                            playBackRate = 1;
+                            break
+                    }
+                    //console.log("Here2")
+                    //console.log(playBackRate);
+                    mainAudio.playbackRate = playBackRate;
+                    
+                    sendSensitivity(playBackRate);
+                }
+            }
+            renderFrame();
+        }
+        else
+        {
+            mainAudio.pause();
+            mainAudioPlaying = false;
+            running = false;
+        }
+        
+        mainAudio.onended = function() {
+            mainAudio.play();
+        }
+        
+        countDownAudio.onended = function() {
+            mainAudioPlaying = true;
+            mainAudio.play();
+        } 
+    }
 }
 
 function startSensors(){
