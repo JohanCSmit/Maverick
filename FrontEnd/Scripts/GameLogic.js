@@ -11,11 +11,21 @@ var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
 var sensitivity = 5
 var baseSense = 5
 
-document.body.style.background = gradient[0];
+document.body.style.background = 'hsl(120,100%,50%)';
+const green = 120;
+
+function changeGradient(acceleration, minValue, maxValue) {
+
+    grad = Math.abs((acceleration / maxValue) * green - green);
+    console.log(grad);
+
+    document.body.style.background = `hsl(${grad},100%,50%)`;
+
+}
 
 function dead()
 {
-    document.body.style.background = gradient[4];
+    document.body.style.background = 'hsl(0,100%,50%)';
     window.removeEventListener("devicemotion", handleMotion)
     window.removeEventListener("deviceorientation", handleOrientation);
 
@@ -36,8 +46,8 @@ function dead()
     //Exit fullscreen mode
     if (document.exitFullscreen)
         document.exitFullscreen();
-    else if (document.webkitExitFullscreen)
-        document.webkitExitFullscreen();
+    //else if (document.webkitExitFullscreen)
+    //    document.webkitExitFullscreen();
 
 	dieSim();
 }
@@ -49,8 +59,8 @@ function updateSensitivity(inSens)
 }
 
 function reset(){
-    document.body.style.background = gradient[0];
-    document.getElementById("header").innerText = "Init to Winit";
+    document.body.style.background = 'hsl(120,100%,50%)';
+    document.getElementById("header").innerText = "In it to Win it";
 
     //Remove previous event listeners
     window.removeEventListener("devicemotion", handleMotion)
@@ -62,8 +72,8 @@ function reset(){
     var elem = document.documentElement;
     if (elem.requestFullscreen)
         elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen)
-        elem.webkitRequestFullscreen(); 
+    //else if (elem.webkitRequestFullscreen)
+    //    elem.webkitRequestFullscreen(); 
 
     document.getElementById("resetButton").hidden = true;
 
