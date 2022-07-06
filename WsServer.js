@@ -19,7 +19,8 @@ function generateSession(playerCount = 5){
 
       //Check SessionID is unique
       while(sessions.find((session) => session.sessionId == sesId)){
-        sesId = (Math.random() + 1).toString(36).substring(9)
+        sesId = ((Math.random() + 1).toString(36).substring(9)).toUpperCase();
+
       }
 
       return sesId
@@ -42,6 +43,26 @@ function findSession(ws,sessionId){
   }
   else{
     return session
+  }
+}
+
+function findPlayer(ws,session){
+  const player = session.players.find((player) => player.ws == ws)
+  if(!player){
+    return
+  }
+  else{
+    return player
+  }
+}
+
+function findSessionHttp(sessionId){
+  const session = sessions.find((session) => session.sessionId == sessionId)
+  if(!session){
+    return null;
+  }
+  else{
+    return session;
   }
 }
 
@@ -216,7 +237,7 @@ wss.on("connection", function(ws) {
 
     if (type == "join") {
       console.log("Attempt join");
-      addPlayerToSession(ws, obj.sessionID, obj.isHost)
+      addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
     }
     if (type == "start_game"){
       startGame(ws, obj.sessionID)
@@ -252,5 +273,26 @@ app.post("/game/create",  function(request, response) {
     "sessionID" : sesID
   }));
   
+});
+
+app.post("/game/join",  function(request, response) {
+
+  console.log(request.body);
+
+  var sesID = request.body.sessionID;
+  sesID = sesID.toUpperCase();
+  console.log("searching " + sesID);
+  const session = findSessionHttp(sesID);
+
+  if (session) {
+    response.end(JSON.stringify({
+      "status" : "success"
+    }));
+  }
+  else {
+    response.end(JSON.stringify({
+      "status" : "failed"
+    }));
+  }
 });
 
