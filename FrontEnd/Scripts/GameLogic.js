@@ -17,7 +17,6 @@ const green = 120;
 function changeGradient(acceleration, minValue, maxValue) {
 
     grad = Math.abs((acceleration / maxValue) * green - green);
-    console.log(grad);
 
     document.body.style.background = `hsl(${grad},100%,50%)`;
 
@@ -25,6 +24,8 @@ function changeGradient(acceleration, minValue, maxValue) {
 
 function dead()
 {
+    dieSim();
+
     document.body.style.background = 'hsl(0,100%,50%)';
     window.removeEventListener("devicemotion", handleMotion)
     window.removeEventListener("deviceorientation", handleOrientation);
@@ -49,7 +50,6 @@ function dead()
     //else if (document.webkitExitFullscreen)
     //    document.webkitExitFullscreen();
 
-	dieSim();
 }
 
 function updateSensitivity(inSens)
