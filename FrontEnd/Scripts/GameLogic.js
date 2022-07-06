@@ -79,8 +79,8 @@ function reset(){
     document.body.style.background = 'hsl(120,100%,50%)';
     
     //Hide notification div
-    document.getElementById("PostGameHost").hidden = "true";
-    document.getElementById("PostGame").hidden = "true";
+    if (_isHost) document.getElementById("PostGameHost").style = "display: none";
+    else document.getElementById("PostGame").style = "display: none";
    
 
     //Remove previous event listeners
@@ -96,7 +96,7 @@ function reset(){
     //else if (elem.webkitRequestFullscreen)
     //    elem.webkitRequestFullscreen(); 
 
-    document.getElementById("resetButton").hidden = true;
+    //document.getElementById("resetButton").hidden = true;
 
 }
 
