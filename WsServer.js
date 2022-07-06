@@ -325,9 +325,16 @@ app.post("/game/join",  function(request, response) {
   const session = findSessionHttp(sesID);
 
   if (session) {
-    response.end(JSON.stringify({
-      "status" : "success"
-    }));
+    if (session.maxPlayerCount > session.players.length){
+      response.end(JSON.stringify({
+        "status" : "success"
+      }));
+    }
+    else{
+      response.end(JSON.stringify({
+        "status" : "session_full"
+      }));
+    }
   }
   else {
     response.end(JSON.stringify({
