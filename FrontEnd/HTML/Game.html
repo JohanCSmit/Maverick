@@ -56,10 +56,23 @@
 </main>
 
 <!-- will not be displayed when the page is rendered -->
-<div id="PostGame" class="bodyDiv" style="display: none;">
+<div id="PostGameHost" class="bodyDiv" style="display: none;">
+
+  <h1>Game Over</h1>
+  <br>
+  <h1 id="PostGameMessageHost"></h1>
   
   <h1>Reset?</h1>
   <button onclick='sendResetRequest();' type='button' id='resetButton' hidden='true'>Reset</button>
+
+</div>
+
+<div id="PostGame" class="bodyDiv" style="display: none;">
+
+    <h1>Game Over</h1>
+    <h2>Waiting for host</h2>
+    <br>
+    <h1 id="PostGameMessage"></h1>
 
 </div>
 
