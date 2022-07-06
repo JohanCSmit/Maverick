@@ -131,6 +131,7 @@ function dieSim() {
 function sendSensitivity(sensitivity){
     _socket.send(JSON.stringify({
         "type": "sensitivity",
-        "sensitivity" : sensitivity
+        "sensitivity" : sensitivity,
+        "sessionID" : localStorage.getItem("sessionID")
     }));
 }
