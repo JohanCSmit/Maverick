@@ -101,6 +101,8 @@ function joinGame(sessionID){
         if (obj.type == "win") alert("you won!!!");
 
         if (obj.type == "start") startSensors();
+
+        if (obj.type == "sensitivity") updateSensitivity(obj.type);
     }
 
     _socket.onclose = function() {
@@ -131,3 +133,10 @@ function dieSim() {
         "sessionID" : localStorage.getItem("sessionID")
     }));
   }
+
+function sendSensitivity(sensitivity){
+    _socket.send(JSON.stringify({
+        "type": "sensitivity",
+        "sensitivity" : sensitivity
+    }));
+}

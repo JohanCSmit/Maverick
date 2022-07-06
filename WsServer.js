@@ -147,6 +147,19 @@ function startGame(ws, sessionId){
   }
 }
 
+function updateSensitivity(ws, sessionId, sensitivity){
+  const session = findSession(ws,sessionId)
+  if(session){
+    for (let index = 0; index < session.players.length; index++) {
+      var element = session.players[index];
+      element.ws.send(JSON.stringify({
+        "type" : "sensitivity",
+        "status": sensitivity
+      }));
+    }
+  }
+}
+
 function removePlayer(ws, sessionId){
   const session = findSession(ws,sessionId)
   if(session){
@@ -198,11 +211,13 @@ wss.on("connection", function(ws) {
     if (type == "start_game"){
       startGame(ws, obj.sessionID)
     }
-    else if (type == "lose") {
+    if (type == "lose") {
       killPlayer(ws, obj.sessionID);
     }
-    else if (type == "close") {
-      removePlayer(ws, obj.sessionID);
+    if (type == "sensitivity"){
+      console.log("Sensitivity :");
+      console.log(obj.sensitivity);
+      updateSensitivity(ws, obj.sessionID, obj.sensitivity)
     }
     
   });
