@@ -13,22 +13,7 @@ function clickCreateGame() {
     var count = document.getElementById("numPlayersCreate").value;
     //Check if IOS then dont continue
 
-    var itIsIOS = function() {
-        const ua = navigator.userAgent
-        if (/android/i.test(ua)) {
-            return false
-        }
-        else if (/iPad|iPhone|iPod/.test(ua))
-            || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1){
-            return true
-        }
-        return false
-    }
-
-    if (xTemp) {
-        document.getElementById("CreateGameError").value = "Field cannot be empty";
-    }
-    else if (count == ""){
+    if (count == ""){
          document.getElementById("CreateGameError").value = "Field cannot be empty";
     }else if (count > maxPlayers) {
         document.getElementById("CreateGameError").value = `Max players ${maxPlayers}`;
