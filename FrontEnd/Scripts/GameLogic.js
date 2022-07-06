@@ -76,6 +76,7 @@ function updateSensitivity(inSens)
 }
 
 function reset(){
+    resetMusic();
     document.body.style.background = 'hsl(120,100%,50%)';
     
     //Hide notification div
@@ -233,8 +234,16 @@ function handleOrientation(event)
     }
 }
 
+var countDownAudio, mainAudio, currentTime, startTime;
+
+function resetMusic() {
+    countDownAudio.pause();
+    mainAudio.pause();
+
+}
+
 function musicHandler(){
-    var countDownAudio, mainAudio, currentTime, startTime;
+    
         
         countDownAudio = new Audio();
         countDownAudio.src = 'https://res.cloudinary.com/dtd0lxvsg/video/upload/v1657094095/321Kratos_ncov62.mp3';
