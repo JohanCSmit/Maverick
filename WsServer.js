@@ -267,7 +267,10 @@ app.post("/game/create",  function(request, response) {
 
 app.post("/game/join",  function(request, response) {
 
-  const sesID = request.body.sessionID.toUpperCase();
+  console.log(request.body);
+
+  var sesID = request.body.sessionID;
+  sesID = sesID.toUpperCase();
   console.log("searching " + sesID);
   const session = findSessionHttp(sesID);
 

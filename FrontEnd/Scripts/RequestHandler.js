@@ -60,9 +60,7 @@ function clickJoinGame() {
     var sessionID = document.getElementById("sessionID").value;
     _sessionID = sessionID;
 
-    var data = {
-        "sessionID": sessionID
-    };
+    var data = "sessionID="+sessionID;
 
     var xhr = new XMLHttpRequest();
     //xhr.withCredentials = true;
@@ -94,6 +92,7 @@ function clickJoinGame() {
     xhr.open("POST", _host +"/game/join", false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
+    console.log(data);
     xhr.send(data);
 
     
