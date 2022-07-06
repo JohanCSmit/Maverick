@@ -147,14 +147,14 @@ function startGame(ws, sessionId){
   }
 }
 
-function updateSencitivity(ws, sessionId, sencitivity){
+function updateSensitivity(ws, sessionId, sensitivity){
   const session = findSession(ws,sessionId)
   if(session){
     for (let index = 0; index < session.players.length; index++) {
       var element = session.players[index];
       element.ws.send(JSON.stringify({
         "type" : "sencitivity",
-        "status": sencitivity
+        "status": sensitivity
       }));
     }
   }
