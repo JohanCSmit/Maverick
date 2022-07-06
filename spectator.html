@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title> Maverick-Joust: Spectator </title>
+
+  <style>
+    body {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 55px;
+    }
+
+    img {
+        height: 100px;
+        width: 100px;
+
+        margin-bottom: 50px;
+    }
+  </style>
+
+</head>
+<body>
+
+    <h1> Spectate Session </h1>
+    <img src="./FrontEnd/Resources/logo.png" class="logo"/>
+
+    <div id="content">
+        <input type="text" id="sessionID">
+        <button onclick="connect()"> Spectate </button>
+    </div>
+
+    <script>
+
+        var players = [];
+
+        function connect() {
+            var sessionID = document.getElementById("sessionID").value;
+
+            //var socket = new WebSocket("wss://gentle-scrubland-69667.herokuapp.com/");
+            var socket = new WebSocket("ws://localhost:8080");
+
+            document.getElementById("content").innerHTML = "";
+
+            
+
+            console.log(sessionID);
+
+            socket.onopen = function() {
+
+                socket.send(JSON.stringify({
+                    "type": "spectate",
+                    "sessionID": sessionID
+                }));
+
+                socket.onmessage = function(message) {
+                    var obj = JSON.parse(message.data);
+                    console.log(obj);
+
+                    if (obj.type == "update") {
+                        document.getElementById("content").innerHTML = "";
+                        update(obj.data);
+                    }
+                };
+            }
+        }
+
+        function update(data) {
+            for (let i=0; i<data.players.length; i++) {
+                players.push(data.players[i]);
+
+                document.getElementById("content").innerHTML += ("Player " + i + " is ");
+
+                var s = "dead";
+                if (data.players[i].alive == true) s = "alive"
+                document.getElementById("content").innerHTML += s + "<br>";
+                
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,4 +1,24 @@
 const sessions = []
+var _spectator;
+
+function spectate(sessionID) {
+  const session = findSession(_spectator, sessionID);
+
+  var p = [];
+
+  for (let i=0; i<session.players.length; i++) {
+    p.push({
+      "alive" : session.players[i].alive
+    })
+  }
+
+  _spectator.send(JSON.stringify({
+    "type": "update",
+    "data": {
+      "players": p
+    }
+  }));
+}
 
 function generateSession(playerCount = 5){
   let session = {
@@ -241,17 +261,21 @@ wss.on("connection", function(ws) {
     if (type == "join") {
       //console.log("Attempt join");
       addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
+      if (_spectator) spectate(obj.sessionID);
     }
     if (type == "start_game"){
       startGame(ws, obj.sessionID.toUpperCase())
     }
     if (type == "lose") {
       killPlayer(ws, obj.sessionID.toUpperCase());
+      if (_spectator) spectate(obj.sessionID);
     }
     if (type == "sensitivity"){
-      //console.log("Sensitivity :");
-      //console.log(obj.sensitivity);
       updateSensitivity(ws, obj.sessionID.toUpperCase(), obj.sensitivity)
+    }
+    else if (type == "spectate") {
+      _spectator = ws;
+      spectate(obj.sessionID);
     }
     
   });
