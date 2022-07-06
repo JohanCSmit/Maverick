@@ -96,8 +96,7 @@ function requestPermissions()
     document.getElementById("reqPerm").style.display="none";
 
     //Music for host
-    var isHost = localStorage.getItem("isHost");
-    if(isHost == "true")
+    if(_isHost)
     {
         var countDownAudio, mainAudio, currentTime, startTime;
         

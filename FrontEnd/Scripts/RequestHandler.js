@@ -1,7 +1,7 @@
 var _sessionID;
 var _socket;
 
-var debug = false;
+var debug = true;
 
 var _host;
 
@@ -47,7 +47,7 @@ function createGame(pCount){
 }
 
 function startGame(){
-    if(localStorage.getItem("isHost") == "true"){
+    if (_isHost){
         //console.log("Host Started Game");
         _socket.send(JSON.stringify({
             "type": "start_game",
@@ -73,10 +73,6 @@ function clickJoinGame() {
             var obj = JSON.parse(this.responseText);
             if (obj.status == "success") {
                 localStorage.setItem("sessionID", sessionID);
-                // If admin local storage is already set thus dont overwrite it
-                if (localStorage.getItem("isHost") != "true") {
-                    localStorage.setItem("isHost", "false");
-                }
 
                 if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
                 else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
@@ -116,7 +112,6 @@ function joinGame(sessionID){
         let isHost = false
         
         if (localStorage.getItem("isHost")){
-            console.log("IS HOST");
             isHost = true
             localStorage.removeItem("isHost")
         }
