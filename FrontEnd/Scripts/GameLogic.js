@@ -48,11 +48,14 @@ function dead()
         window.navigator.vibrate(750);
     }
 
-    document.getElementById("header").innerText = "You lost";
-
     // If player died and is Host make reset button visible 
     if(_isHost){
-        document.getElementById("resetButton").hidden = false;
+       document.getElementById("PostGameHost").hidden = "false";
+       document.getElementById("PostGameMessageHost").textContent = "You Lost"
+    }
+    else{
+        document.getElementById("PostGame").hidden = "false";
+        document.getElementById("PostGameMessage").textContent = "You Lost"
     }
 
     //Exit fullscreen mode
@@ -71,7 +74,11 @@ function updateSensitivity(inSens)
 
 function reset(){
     document.body.style.background = 'hsl(120,100%,50%)';
-    document.getElementById("header").innerText = "In it to Win it";
+    
+    //Hide notification div
+    document.getElementById("PostGameHost").hidden = "true";
+    document.getElementById("PostGame").hidden = "true";
+   
 
     //Remove previous event listeners
     window.removeEventListener("devicemotion", handleMotion)
