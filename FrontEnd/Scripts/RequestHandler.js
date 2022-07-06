@@ -95,6 +95,9 @@ function clickJoinGame() {
                 if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
                 else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
             }
+            else if (obj.status == "session_full"){
+                alert("Game is Full");
+            }
             else {
                 alert("Session Not Found!");
             }
