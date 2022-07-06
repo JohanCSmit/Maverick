@@ -42,6 +42,7 @@ function createGame(pCount){
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.send(data);
+}
 
 function startGame(){
     if(localStorage.getItem("isHost")){
@@ -108,6 +109,13 @@ function joinGame(sessionID){
     
     
 }
+
+// function start() {
+//     localStorage.setItem("isHost", true)
+
+//     if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
+//     else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
+// }
 
 function dieSim() {
     //var _socket = JSON.parse(localStorage.getItem("socket"));
