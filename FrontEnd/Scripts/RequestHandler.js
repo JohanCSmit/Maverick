@@ -1,7 +1,7 @@
 var _sessionID;
 var _socket;
 
-var debug = false;
+var debug = true;
 
 var _host;
 
@@ -101,6 +101,12 @@ function joinGame(sessionID){
         if (obj.type == "win") alert("you won!!!");
 
         if (obj.type == "start") startSensors();
+    }
+
+    _socket.onclose = function() {
+        _socket.send(JSON.stringify({
+            "type": "close"
+        }));
     }
 
     //localStorage.setItem("socket", JSON.stringify(_socket));

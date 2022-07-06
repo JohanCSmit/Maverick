@@ -201,12 +201,11 @@ wss.on("connection", function(ws) {
     else if (type == "lose") {
       killPlayer(ws, obj.sessionID);
     }
+    else if (type == "close") {
+      removePlayer(ws, obj.sessionID);
+    }
     
   });
-
-  ws.on("close", function close() {
-
-  })
 })
 
 const bodyParser = require('body-parser');
