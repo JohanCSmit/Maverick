@@ -18,10 +18,7 @@
         <h1>Host Wait</h1>
 
         <label for="serverID">Server ID</label>
-        <output type="text" id="serverID" name="serverID"><p style="font-size: 30px;">3425</p></output>
-
-        <label for="numPlayers">Number of players joined</label>
-        <output type="number" id="numPlayers" name="numPlayers"><p style="font-size: 20px;">0</p></output>
+        <output type="text" id="serverID" name="serverID"><p style="font-size: 30px;"></p></output>
 
         <!--form action="HostWait.html"-->
             <input type="submit" onclick="start()" value="Start" />
@@ -29,6 +26,8 @@
 
         <!-- you need to scroll down to see the start button sometimes -->
         
-    </div><script src="../Scripts/RequestHandler.js"></script>
+    </div><script src="../Scripts/RequestHandler.js">
+        document.getElementById("serverID").innerHTML = localStorage.getItem("sessionID");
+    </script>
 </body>
 </html>
