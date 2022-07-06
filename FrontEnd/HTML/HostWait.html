@@ -26,8 +26,12 @@
 
         <!-- you need to scroll down to see the start button sometimes -->
         
-    </div><script src="../Scripts/RequestHandler.js">
-        document.getElementById("sID").innerHTML = localStorage.getItem("sessionID");
+    </div>
+    <script src="../Scripts/RequestHandler.js"></script>
+    <script>
+            var s = localStorage.getItem("sessionID");
+            //console(s);
+            document.getElementById("sID").innerHTML = s;
     </script>
 </body>
 </html>
