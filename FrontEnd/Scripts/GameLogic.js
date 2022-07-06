@@ -145,40 +145,57 @@ function requestPermissions()
                     {
                         case 13:
                             playBackRate = 1.2;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 18:
                             playBackRate = 1;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 28:
                             playBackRate = 0.8;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 34:
                             playBackRate = 1;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 40:
                             playBackRate = 1.4;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 46:
                             playBackRate = 1;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 49:
                             playBackRate = 0.6;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 55:
                             playBackRate = 1;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 67:
                             playBackRate = 1.3;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break;
                         case 73:
                             playBackRate = 1;
+                            mainAudio.playbackRate = playBackRate;
+                            sendSensitivity(playBackRate);
                             break
                     }
                     //console.log("Here2")
                     //console.log(playBackRate);
-                    mainAudio.playbackRate = playBackRate;
-                    
-                    sendSensitivity(playBackRate);
                 }
             }
             renderFrame();
