@@ -1,13 +1,12 @@
 var _sessionID;
 var _socket;
 
-var debug = false;
+var debug = true;
 
 var _host;
 
 function clickCreateGame() {
     var count = document.getElementById("numPlayersCreate").value;
-    console.log(count);
     createGame(count);
 }
 
@@ -28,9 +27,10 @@ function createGame(pCount){
         _sessionID = obj.sessionID;
         //joinGame(obj.sessionID);
         localStorage.setItem("sessionID", obj.sessionID);
+        localStorage.setItem("isHost", true);
 
-        if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/HostWait.html");
-        else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/HostWait.html");
+        if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
+        else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
 
     }
     });
@@ -43,8 +43,16 @@ function createGame(pCount){
 
     xhr.send(data);
 
+function startGame(){
+    if(localStorage.getItem("isHost")){
+        console.log("Host Started Game");
+        _socket.send(JSON.stringify({
+            "type": "start_game",
+            "sessionID" : localStorage.getItem("sessionID")
+        }));
+    }
 
-
+    requestPermissions()
 }
 
 function clickJoinGame() {
@@ -53,9 +61,13 @@ function clickJoinGame() {
 
     //alert(sessionID);
     localStorage.setItem("sessionID", sessionID);
+    // If admin local storage is already set thus dont overwrite it
+    if (localStorage.getItem("isHost") === null) {
+        localStorage.setItem("isHost", false);
+    }
 
-    if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/PlayerWait.html");
-    else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/PlayerWait.html");
+    if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
+    else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
     //joinGame(sessionID);
 }
 
@@ -67,8 +79,6 @@ function joinGame(sessionID){
 
     if (debug) host = location.origin.replace(/^http/, 'ws')
     else host = location.origin.replace(/^http/, 'ws')
-
-    console.log(host);
 
     _socket = new WebSocket(host);
 
@@ -88,6 +98,8 @@ function joinGame(sessionID){
         console.log(obj);
 
         if (obj.type == "win") alert("you won!!!");
+
+        if (obj.type == "start") startSensors();
     }
 
     //localStorage.setItem("socket", JSON.stringify(_socket));
@@ -95,11 +107,6 @@ function joinGame(sessionID){
     
     
     
-}
-
-function start() {
-    if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
-    else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
 }
 
 function dieSim() {
