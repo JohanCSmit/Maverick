@@ -1,7 +1,7 @@
 var _sessionID;
 var _socket;
 
-var debug = true;
+var debug = false;
 
 var _host;
 
@@ -134,7 +134,7 @@ function joinGame(sessionID){
             _isHost = obj.status
             console.log("Host is");
         }
-        
+
         if (obj.type == "win") alert("you won!!!");
 
         if (obj.type == "start") startSensors();
