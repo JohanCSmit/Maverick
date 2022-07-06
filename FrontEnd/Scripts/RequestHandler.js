@@ -1,7 +1,7 @@
 var _sessionID;
 var _socket;
 
-var debug = true;
+var debug = false;
 
 var _host;
 
@@ -21,7 +21,7 @@ function createGame(pCount){
 
     xhr.addEventListener("readystatechange", function() {
     if(this.readyState === 4) {
-        console.log(this.responseText);
+        //console.log(this.responseText);
         var obj = JSON.parse(this.responseText);
         //alert(obj.sessionID);
         _sessionID = obj.sessionID;
@@ -46,7 +46,7 @@ function createGame(pCount){
 
 function startGame(){
     if(localStorage.getItem("isHost") == "true"){
-        console.log("Host Started Game");
+        //console.log("Host Started Game");
         _socket.send(JSON.stringify({
             "type": "start_game",
             "sessionID" : localStorage.getItem("sessionID")
@@ -96,7 +96,7 @@ function joinGame(sessionID){
     _socket.onmessage = function(message) {
         const obj = JSON.parse(message.data);
         const type = obj.type;
-        console.log(obj);
+        //console.log(obj);
 
         if (obj.type == "win") alert("you won!!!");
 
