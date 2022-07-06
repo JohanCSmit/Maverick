@@ -1,4 +1,6 @@
 const sessions = []
+
+var _spectator;
 // Gernerates new session, adds to sessions list and returns sessionId
 function generateSession(playerCount = 5){
   let session = {
@@ -53,6 +55,25 @@ function findPlayer(ws,session){
   else{
     return player
   }
+}
+
+function spectate(sessionID) {
+  const session = findSession(_spectator, sessionID);
+
+  var p = [];
+
+  for (let i=0; i<session.players.length; i++) {
+    p.push({
+      "alive" : session.players[i].alive
+    })
+  }
+
+  _spectator.send(JSON.stringify({
+    "type": "update",
+    "data": {
+      "players": p
+    }
+  }));
 }
 
 function addPlayerToSession(ws, sessionId){
@@ -182,9 +203,17 @@ wss.on("connection", function(ws) {
     if (type == "join") {
       console.log("Attempt join");
       addPlayerToSession(ws, obj.sessionID)
+
+      if (_spectator) spectate(obj.sessionID);
     }
     else if (type == "lose") {
       killPlayer(ws, obj.sessionID);
+
+      if (_spectator) spectate(obj.sessionID);
+    }
+    else if (type == "spectate") {
+      _spectator = ws;
+      spectate(obj.sessionID);
     }
     
   });
