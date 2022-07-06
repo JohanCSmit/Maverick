@@ -128,21 +128,20 @@ function joinGame(sessionID){
     _socket.onmessage = function(message) {
         const obj = JSON.parse(message.data);
         const type = obj.type;
-        console.log(obj);
 
-        if (obj.type == "isHost") {
-            _isHost = obj.status
-            console.log("Host is");
-        }
+        if (obj.type == "isHost") _isHost = obj.status
 
-        if (obj.type == "win") alert("you won!!!");
+        if (obj.type == "win") winning();
 
         if (obj.type == "start") startSensors();
+
+        if (obj.type == "reset") reset();
 
         if (obj.type == "sensitivity") updateSensitivity(obj.type);
     }
 
     _socket.onclose = function() {
+        console.log("Socket closed");
         _socket.send(JSON.stringify({
             "type": "close"
         }));
@@ -177,4 +176,13 @@ function sendSensitivity(sensitivity){
         "sensitivity" : sensitivity,
         "sessionID" : localStorage.getItem("sessionID")
     }));
+}
+
+function sendResetRequest(){
+    if(_isHost){
+        _socket.send(JSON.stringify({
+            "type": "reset",
+            "sessionID" : localStorage.getItem("sessionID")
+        }));
+    }
 }

@@ -51,7 +51,7 @@ function generateSession(playerCount = 5){
 }
 
 function findSession(ws,sessionId){
-  const session = sessions.find((session) => session.sessionId == sessionId)
+  const session = sessions.find((session) => session.sessionId == sessionId.toUpperCase())
   if(!session){
     ws.send(JSON.stringify({
       "type" : "join",
@@ -198,6 +198,20 @@ function startGame(ws, sessionId){
   }
 }
 
+function resetGame(ws, sessionId){
+  const session = findSession(ws,sessionId)
+  if(session){
+    for (let index = 0; index < session.players.length; index++) {
+      var element = session.players[index];
+      //Set player alive prop to true
+      element.alive = true
+      element.ws.send(JSON.stringify({
+        "type" : "reset"
+      }));
+    }
+  }
+}
+
 function updateSensitivity(ws, sessionId, sensitivity){
   const session = findSession(ws,sessionId)
   if(session){
@@ -269,6 +283,9 @@ wss.on("connection", function(ws) {
     if (type == "lose") {
       killPlayer(ws, obj.sessionID.toUpperCase());
       if (_spectator) spectate(obj.sessionID);
+    }
+    if (type == "reset") {
+      resetGame(ws, obj.sessionID)
     }
     if (type == "sensitivity"){
       updateSensitivity(ws, obj.sessionID.toUpperCase(), obj.sensitivity)

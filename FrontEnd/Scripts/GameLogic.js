@@ -28,6 +28,11 @@ function dead()
 
     document.getElementById("header").innerText = "You lost";
 
+    // If player died and is Host make reset button visible 
+    if(_isHost){
+        document.getElementById("resetButton").hidden = false;
+    }
+
     //Exit fullscreen mode
     if (document.exitFullscreen)
         document.exitFullscreen();
@@ -41,6 +46,30 @@ function updateSensitivity(inSens)
 {
     sensitivity = inSens*baseSense;
     //console.log(inSens)
+}
+
+function reset(){
+    document.body.style.background = gradient[0];
+    // Restart sensors
+    startSensors();
+
+    //Make the game fullscreen
+    var elem = document.documentElement;
+    if (elem.requestFullscreen)
+        elem.requestFullscreen();
+    else if (elem.webkitRequestFullscreen)
+        elem.webkitRequestFullscreen(); 
+
+    document.getElementById("resetButton").hidden = true;
+
+}
+
+function winning(){
+    alert("You won")
+
+    if(_isHost){
+        document.getElementById("resetButton").hidden = false;
+    }
 }
 
 function requestPermissions()
@@ -92,10 +121,70 @@ function requestPermissions()
     //Take away request permission button
     document.getElementById("reqPerm").style.display="none";
 
-    //Music for host
-    if(_isHost)
+}
+
+function startSensors(){
+    setTimeout(function(){
+        console.log("Sensors Started");
+        window.addEventListener("devicemotion", handleMotion)
+        window.addEventListener("deviceorientation", handleOrientation)
+
+        if (_isHost) musicHandler()
+    }, 1000);
+}
+
+function updateFieldIfNotNull(fieldName, value, precision=10)
+{
+    if (value != null)
+        document.getElementById(fieldName).innerHTML = value.toFixed(precision);
+}
+
+function handleMotion(event)
+{
+    updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
+    updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
+    updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
+    accNorm = Math.sqrt(Math.pow(event.acceleration.x,2) + Math.pow(event.acceleration.y,2) + Math.pow(event.acceleration.z,2));
+    updateFieldIfNotNull('Accelerometer_norm', accNorm);
+
+    updateFieldIfNotNull('Gyroscope_z', event.rotationRate.alpha);
+    updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
+    updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
+    gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha,2) + Math.pow(event.rotationRate.beta,2) + Math.pow(event.rotationRate.gamma,2));
+    updateFieldIfNotNull('Gyroscope_norm', gyroNorm);
+
+    if(eventNum === 0)
+        if(accNorm >= sensitivity)
+            dead();
+    else if(eventNum === 1)
+        if(accNorm >= sensitivity*1.5)
+            dead();
+}
+
+function handleOrientation(event)
+{
+    updateFieldIfNotNull('Orientation_a', event.alpha);
+    updateFieldIfNotNull('Orientation_b', event.beta);
+    updateFieldIfNotNull('Orientation_g', event.gamma);
+
+    if(eventNum === 1)
     {
-        var countDownAudio, mainAudio, currentTime, startTime;
+        var diff = Math.abs(90 - event.beta);
+        if(diff >= 40)
+            dead();
+        else if(diff >= 30)
+            document.body.style.background = gradient[3];
+        else if(diff >= 20)
+            document.body.style.background = gradient[2];
+        else if(diff >= 10)
+            document.body.style.background = gradient[1];
+        else
+            document.body.style.background = gradient[0];
+    }
+}
+
+function musicHandler(){
+    var countDownAudio, mainAudio, currentTime, startTime;
         
         countDownAudio = new Audio();
         countDownAudio.src = 'https://res.cloudinary.com/dtd0lxvsg/video/upload/v1657094095/321Kratos_ncov62.mp3';
@@ -210,64 +299,5 @@ function requestPermissions()
         countDownAudio.onended = function() {
             mainAudioPlaying = true;
             mainAudio.play();
-        } 
-    }
-}
-
-function startSensors(){
-    setTimeout(function(){
-        console.log("Sensors Started");
-        window.addEventListener("devicemotion", handleMotion)
-        window.addEventListener("deviceorientation", handleOrientation)
-    }, 1000);
-}
-
-function updateFieldIfNotNull(fieldName, value, precision=10)
-{
-    if (value != null)
-        document.getElementById(fieldName).innerHTML = value.toFixed(precision);
-}
-
-function handleMotion(event)
-{
-    updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
-    updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
-    updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
-    accNorm = Math.sqrt(Math.pow(event.acceleration.x,2) + Math.pow(event.acceleration.y,2) + Math.pow(event.acceleration.z,2));
-    updateFieldIfNotNull('Accelerometer_norm', accNorm);
-
-    updateFieldIfNotNull('Gyroscope_z', event.rotationRate.alpha);
-    updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
-    updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
-    gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha,2) + Math.pow(event.rotationRate.beta,2) + Math.pow(event.rotationRate.gamma,2));
-    updateFieldIfNotNull('Gyroscope_norm', gyroNorm);
-
-    if(eventNum === 0)
-        if(accNorm >= sensitivity)
-            dead();
-    else if(eventNum === 1)
-        if(accNorm >= sensitivity*1.5)
-            dead();
-}
-
-function handleOrientation(event)
-{
-    updateFieldIfNotNull('Orientation_a', event.alpha);
-    updateFieldIfNotNull('Orientation_b', event.beta);
-    updateFieldIfNotNull('Orientation_g', event.gamma);
-
-    if(eventNum === 1)
-    {
-        var diff = Math.abs(90 - event.beta);
-        if(diff >= 40)
-            dead();
-        else if(diff >= 30)
-            document.body.style.background = gradient[3];
-        else if(diff >= 20)
-            document.body.style.background = gradient[2];
-        else if(diff >= 10)
-            document.body.style.background = gradient[1];
-        else
-            document.body.style.background = gradient[0];
-    }
+        }
 }

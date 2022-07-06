@@ -18,6 +18,7 @@
     <h1 id='header'>In it to win it!</h1>
 
     <button onclick='startGame();' type='button' id='reqPerm'>Ready</button>
+    <button onclick='sendResetRequest();' type='button' id='resetButton' hidden='true'>Reset</button>
     
     <br>
     <h4>Orientation</h4>
@@ -44,7 +45,7 @@
     </ul>
 </main>
 
-<button onclick="dieSim()"> Die </button>
+<button onclick="dead()"> Die </button>
 
 <script src="../Scripts/RequestHandler.js"></script>
 <script src="../Scripts/GameLogic.js"></script>
