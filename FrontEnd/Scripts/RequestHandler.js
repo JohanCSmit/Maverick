@@ -13,18 +13,12 @@ function clickCreateGame() {
     var count = document.getElementById("numPlayersCreate").value;
     //Check if IOS then dont continue
 
-    var xTemp = function() {
-        return !([
-            'iPad Simulator',
-            'iPhone Simulator',
-            'iPod Simulator',
-            'iPad',
-            'iPhone',
-            'iPod'
-          ].includes(navigator.platform));
+    var itIsIOS = function() {
+        return /iPad|iPhone|iPod/.test(navigator.platform)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
     }
-    
-    if (!xTemp) {
+
+    if (xTemp) {
         document.getElementById("CreateGameError").value = "Field cannot be empty";
     }
     else if (count == ""){
