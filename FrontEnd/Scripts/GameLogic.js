@@ -37,6 +37,9 @@ function dead()
 {
     dieSim();
 
+    if (_isHost) document.getElementById("PostGameHost").style = "display: show";
+    else document.getElementById("PostGame").style = "display: show";
+
     document.body.style.background = 'hsl(0,100%,50%)';
     window.removeEventListener("devicemotion", handleMotion)
     window.removeEventListener("deviceorientation", handleOrientation);
