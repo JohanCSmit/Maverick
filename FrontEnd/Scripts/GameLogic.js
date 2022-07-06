@@ -41,8 +41,8 @@ function dead()
     else document.getElementById("PostGame").style = "display: show";
 
     document.body.style.background = 'hsl(0,100%,50%)';
-    //window.removeEventListener("devicemotion", handleMotion)
-    //window.removeEventListener("deviceorientation", handleOrientation);
+    window.removeEventListener("devicemotion", handleMotion)
+    window.removeEventListener("deviceorientation", handleOrientation);
 
     //IOS compatibility
     if(noIOS)

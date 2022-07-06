@@ -285,7 +285,8 @@ wss.on("connection", function(ws) {
       if (_spectator) spectate(obj.sessionID.toUpperCase());
     }
     if (type == "reset") {
-      resetGame(ws, obj.sessionID)
+      resetGame(ws, obj.sessionID.toUpperCase())
+      if (_spectator) spectate(obj.sessionID.toUpperCase());
     }
     if (type == "sensitivity"){
       updateSensitivity(ws, obj.sessionID.toUpperCase(), obj.sensitivity)
