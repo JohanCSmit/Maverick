@@ -54,8 +54,8 @@ function clickJoinGame() {
     //alert(sessionID);
     localStorage.setItem("sessionID", sessionID);
 
-    if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/PlayerWait.html");
-    else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/PlayerWait.html");
+    if (debug) host = window.location.replace("http://localhost:8080/FrontEnd/HTML/Game.html");
+    else host = window.location.replace("https://gentle-scrubland-69667.herokuapp.com/FrontEnd/HTML/Game.html");
     //joinGame(sessionID);
 }
 
