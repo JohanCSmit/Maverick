@@ -41,8 +41,8 @@ function dead()
     else document.getElementById("PostGame").style = "display: show";
 
     document.body.style.background = 'hsl(0,100%,50%)';
-    window.removeEventListener("devicemotion", handleMotion)
-    window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener("devicemotion", handleMotion)
+    //window.removeEventListener("deviceorientation", handleOrientation);
 
     //IOS compatibility
     if(noIOS)
@@ -54,8 +54,8 @@ function dead()
     // If player died and is Host make reset button visible 
 
     //Exit fullscreen mode
-    if (document.exitFullscreen)
-        document.exitFullscreen();
+    //if (document.exitFullscreen)
+        //document.exitFullscreen();
     //else if (document.webkitExitFullscreen)
     //    document.webkitExitFullscreen();
 
