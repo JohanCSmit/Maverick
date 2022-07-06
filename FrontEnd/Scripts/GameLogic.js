@@ -18,6 +18,8 @@ function dead()
         "type": "lose",
         "sessionID" : SessionID
     }));
+
+    alert("Dead");
 }
 
 function requestPermissions()

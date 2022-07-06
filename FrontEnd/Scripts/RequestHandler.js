@@ -1,6 +1,10 @@
 var _sessionID;
 var _socket;
 
+var debug = true;
+
+var _host;
+
 function clickCreateGame() {
     var count = document.getElementById("numPlayersCreate").value;
     console.log(count);
@@ -26,7 +30,10 @@ function createGame(pCount){
     }
     });
 
-    xhr.open("POST", "https://gentle-scrubland-69667.herokuapp.com/game/create", false);
+    if (debug) _host = "http://localhost:8080";
+    else _host = "https://gentle-scrubland-69667.herokuapp.com";
+
+    xhr.open("POST", _host +"/game/create", false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.send(data);
@@ -42,7 +49,14 @@ function clickJoinGame() {
 function joinGame(sessionID){
 
     //alert("Joining");
-    var host = location.origin.replace(/^http/, 'ws')
+
+    var host;
+
+    if (debug) host = location.origin.replace(/^file/, 'ws') + "localhost:8080"
+    else host = location.origin.replace(/^http/, 'ws')
+
+    console.log(host);
+
     _socket = new WebSocket(host);
 
     _socket.onopen = function() {
