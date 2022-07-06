@@ -37,6 +37,11 @@ function dead()
 	dieSim();
 }
 
+function updateSensitivity(inSens)
+{
+    sensitivity = inSens;
+}
+
 function requestPermissions()
 {
     //IOS Compatibility
@@ -123,7 +128,6 @@ function requestPermissions()
         {
             running = true;
             startTime = today.getMinutes() * 60 + today.getSeconds();
-            running = true;
             countDownAudio.play();
     
             function renderFrame()
@@ -137,45 +141,37 @@ function requestPermissions()
                     {
                         case 13:
                             playBackRate = 1.2;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 18:
                             playBackRate = 1;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 28:
                             playBackRate = 0.8;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 34:
                             playBackRate = 1;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 40:
                             playBackRate = 1.4;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 46:
                             playBackRate = 1;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 49:
                             playBackRate = 0.6;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 55:
                             playBackRate = 1;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 67:
                             playBackRate = 1.3;
-                            mainAudio.playbackRate = playBackRate;
                             break;
                         case 73:
                             playBackRate = 1;
-                            mainAudio.playbackRate = playBackRate;
                             break
                     }
+                    mainAudio.playbackRate = playBackRate;
+                    sendSensitivity(playBackRate);
                     console.log(timer);
                 }
             }
