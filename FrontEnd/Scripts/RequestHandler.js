@@ -12,7 +12,7 @@ function clickCreateGame() {
 
     var count = document.getElementById("numPlayersCreate").value;
     //Check if IOS then dont continue
-    var appVersion = navigator.appVersion;
+    var name = navigator.appVersion;
     var device = name.substring(name.indexOf("(")+1, name.indexOf(";"));
     
     if (count == ""){
