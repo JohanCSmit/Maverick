@@ -231,10 +231,12 @@ wss.on("connection", function(ws) {
   //my solution
 
   ws.on('message', function incoming(message) {
-  console.log('Websocket Received: %s', message);
+  
 
     const obj = JSON.parse(message);
     const type = obj.type;
+
+    if (obj.type != "sensitivity") console.log('Websocket Received: %s', message);
 
     if (type == "join") {
       //console.log("Attempt join");
