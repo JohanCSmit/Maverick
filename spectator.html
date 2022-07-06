@@ -6,31 +6,161 @@
   <title> Maverick-Joust: Spectator </title>
 
   <style>
+    html, body {
+    width: 98%;
+    height:98%;
+    }
     body {
         text-align: center;
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
     }
 
-    h1 {
-        font-size: 55px;
+    @keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+    #head {
+        float: left;
+        margin-left: 30px;
+        text-transform: uppercase;
+        font-family: verdana;
+        font-size: 75px;
+        font-weight: 700;
+        color: #500b3c;
+        text-shadow: 1px 1px 1px #919191,
+            1px 2px 1px #919191,
+            1px 3px 1px #919191,
+            1px 4px 1px #919191,
+            1px 5px 1px #919191,
+            1px 6px 1px #919191,
+            1px 7px 1px #919191,
+            1px 8px 1px #919191,
+            1px 9px 1px #919191,
+            1px 10px 1px #919191,
+        1px 18px 6px rgba(16,16,16,0.4),
+        1px 22px 10px rgba(16,16,16,0.2),
+        1px 25px 35px rgba(16,16,16,0.2),
+        1px 30px 60px rgba(16,16,16,0.4);
     }
 
     img {
-        height: 100px;
-        width: 100px;
-
-        margin-bottom: 50px;
+        height: 150px;
+        width: 150px;
     }
+
+    #nav {
+        border: 2px outset #500b3c;
+    }
+
+    #content {
+        width: 600px;
+        height: 400px;
+        position: fixed;
+        margin-left: 500px;
+        margin-top: 200px;
+    }
+
+    .logo {
+        float: left;
+    }
+
+    #findSes {
+        position: absolute;
+        top: 50px;
+        right: 150px;
+    }
+
+    #sessionID {
+        border-radius: 5px;
+    }
+
+    #clicker {
+        background: transparent;
+        border: 1px outset black;
+    }
+
+    #clicker:hover {
+        border: 1px outset #500b3c;
+    }
+
+    .column {
+        float: left;
+        width: 40%;
+    }
+
+    #player {
+        font-size: 45px;
+        margin-top: 20px;
+        margin-right: 50px;
+    }
+
+    #status {
+        font-size: 45px;
+        margin-top: 20px;
+    }
+
+    #contentPlayer, #contentStatus {
+    text-transform: uppercase;
+    font-family: verdana;
+    font-size: 45px;
+    font-weight: 700;
+    color: #78205d;
+    text-shadow: 1px 1px 1px #919191,
+        1px 2px 1px #919191,
+        1px 3px 1px #919191,
+        1px 4px 1px #919191,
+        1px 5px 1px #919191,
+        1px 6px 1px #919191,
+        1px 7px 1px #919191,
+        1px 8px 1px #919191,
+        1px 9px 1px #919191,
+        1px 10px 1px #919191,
+    1px 18px 6px rgba(16,16,16,0.4),
+    1px 22px 10px rgba(16,16,16,0.2),
+    1px 25px 35px rgba(16,16,16,0.2),
+    1px 30px 60px rgba(16,16,16,0.4);
+}
+
   </style>
 
 </head>
 <body>
 
-    <h1> Spectate Session </h1>
     <img src="./FrontEnd/Resources/logo.png" class="logo"/>
+    <div id="head"> Spectate Game </div>
+
+    <div id="findSes">
+        <input type="text" id="sessionID">
+        <button onclick="connect()" id="clicker"> Spectate </button>
+    </div>
+    
+    
 
     <div id="content">
-        <input type="text" id="sessionID">
-        <button onclick="connect()"> Spectate </button>
+        <div id="contentPlayer" class="column">
+            <!--div id="player"> Johan </div>
+            <div id="player"> Gerni </div>
+            <div id="player"> Katlego </div>
+            <div id="player"> Josh </div>
+            <div id="player"> Karl </div-->
+        </div>
+        <div id="contentStatus" class="column">
+            <!--div id="status"> --Dead-- </div>
+            <div id="status"> Alive </div>
+            <div id="status"> --Dead-- </div>
+            <div id="status"> Alive </div>
+            <div id="status"> Alive </div-->
+        </div>
     </div>
 
     <script>
@@ -40,10 +170,11 @@
         function connect() {
             var sessionID = document.getElementById("sessionID").value;
 
-            var socket = new WebSocket("wss://gentle-scrubland-69667.herokuapp.com/");
-            //var socket = new WebSocket("ws://localhost:8080");
+            //var socket = new WebSocket("wss://gentle-scrubland-69667.herokuapp.com/");
+            var socket = new WebSocket("ws://localhost:8080");
 
-            document.getElementById("content").innerHTML = "";
+            document.getElementById("contentPlayer").innerHTML = "";
+            document.getElementById("contentStatus").innerHTML = "";
 
             
 
@@ -61,7 +192,8 @@
                     console.log(obj);
 
                     if (obj.type == "update") {
-                        document.getElementById("content").innerHTML = "";
+                        document.getElementById("contentPlayer").innerHTML = "";
+                        document.getElementById("contentStatus").innerHTML = "";
                         update(obj.data);
                     }
                 };
@@ -72,11 +204,16 @@
             for (let i=0; i<data.players.length; i++) {
                 players.push(data.players[i]);
 
-                document.getElementById("content").innerHTML += ("Player " + i + " is ");
+                //document.getElementById("content").innerHTML += ("Player " + i + " is ");
 
-                var s = "dead";
+                document.getElementById("contentPlayer").innerHTML += "<div id='player'> P" + i + " </div>";
+                
+
+                var s = " --dead--";
                 if (data.players[i].alive == true) s = "alive"
-                document.getElementById("content").innerHTML += s + "<br>";
+                //document.getElementById("content").innerHTML += s + "<br>";
+
+                document.getElementById("contentStatus").innerHTML += "<div id='status'> " + s + " </div>";
                 
             }
         }
