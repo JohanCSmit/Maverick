@@ -6,7 +6,18 @@ var eventNum = 0
 var accNorm = 0
 var gyroNorm = 0
 var track
-var noIOS = true
+
+var noIOS = function() {
+    return !([
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+      ].includes(navigator.platform));
+}
+
 var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
 var sensitivity = 8
 var baseSense = 8
