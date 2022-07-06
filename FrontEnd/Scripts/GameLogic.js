@@ -7,6 +7,8 @@ var accNorm = 0
 var gyroNorm = 0
 var track
 
+var canRead = true;
+
 var noIOS = function() {
     return !([
         'iPad Simulator',
@@ -37,12 +39,15 @@ function dead()
 {
     dieSim();
 
+    canRead = false;
+
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
 
     document.body.style.background = 'hsl(0,100%,50%)';
-    window.removeEventListener("devicemotion", handleMotion)
-    window.removeEventListener("deviceorientation", handleOrientation);
+
+    //window.removeEventListener("devicemotion", handleMotion)
+    //window.removeEventListener("deviceorientation", handleOrientation);
 
     //IOS compatibility
     if(noIOS)
@@ -76,7 +81,8 @@ function reset(){
     else document.getElementById("PostGame").style = "display: none";
    
     // Restart sensors
-    startSensors();
+    //startSensors();
+    canRead = true;
 
 }
 
@@ -85,9 +91,11 @@ function winning(){
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
 
+    canRead = false;
+
     //Remove previous event listeners
-    window.removeEventListener("devicemotion", handleMotion)
-    window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener("devicemotion", handleMotion)
+    //window.removeEventListener("deviceorientation", handleOrientation);
 
     // If player died and is Host make reset button visible 
     /*if(_isHost){
@@ -169,26 +177,28 @@ function updateFieldIfNotNull(fieldName, value, precision=10)
 
 function handleMotion(event)
 {
-    updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
-    updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
-    updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
-    accNorm = Math.sqrt(Math.pow(event.acceleration.x,2) + Math.pow(event.acceleration.y,2) + Math.pow(event.acceleration.z,2));
-    updateFieldIfNotNull('Accelerometer_norm', accNorm);
+    if (canRead) {
+        updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
+        updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
+        updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
+        accNorm = Math.sqrt(Math.pow(event.acceleration.x,2) + Math.pow(event.acceleration.y,2) + Math.pow(event.acceleration.z,2));
+        updateFieldIfNotNull('Accelerometer_norm', accNorm);
 
-    updateFieldIfNotNull('Gyroscope_z', event.rotationRate.alpha);
-    updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
-    updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
-    gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha,2) + Math.pow(event.rotationRate.beta,2) + Math.pow(event.rotationRate.gamma,2));
-    updateFieldIfNotNull('Gyroscope_norm', gyroNorm);
+        updateFieldIfNotNull('Gyroscope_z', event.rotationRate.alpha);
+        updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
+        updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
+        gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha,2) + Math.pow(event.rotationRate.beta,2) + Math.pow(event.rotationRate.gamma,2));
+        updateFieldIfNotNull('Gyroscope_norm', gyroNorm);
 
-    changeGradient(accNorm, 0, sensitivity);
+        changeGradient(accNorm, 0, sensitivity);
 
-    if(eventNum === 0)
-        if(accNorm >= sensitivity)
-            dead();
-    else if(eventNum === 1)
-        if(accNorm >= sensitivity*1.5)
-            dead();
+        if(eventNum === 0)
+            if(accNorm >= sensitivity)
+                dead();
+        else if(eventNum === 1)
+            if(accNorm >= sensitivity*1.5)
+                dead();
+    }
 }
 
 function handleOrientation(event)
