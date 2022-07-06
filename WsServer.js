@@ -229,6 +229,7 @@ console.log("websocket server created")
 wss.on("connection", function(ws) {
 
   console.log("someone connected");
+  //my solution
 
   ws.on('message', function incoming(message) {
   console.log('received: %s', message);
