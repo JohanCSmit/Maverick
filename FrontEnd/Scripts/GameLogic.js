@@ -49,7 +49,7 @@ function requestPermissions()
     //IOS Compatibility
     if(noIOS)
     {
-        alert("Put your phone on vibrate if you want vibration feedback")
+        //alert("Put your phone on vibrate if you want vibration feedback")
 
         //Test browser support for flashlight
         const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
