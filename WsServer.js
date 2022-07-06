@@ -19,7 +19,8 @@ function generateSession(playerCount = 5){
 
       //Check SessionID is unique
       while(sessions.find((session) => session.sessionId == sesId)){
-        sesId = (Math.random() + 1).toString(36).substring(9)
+        sesId = ((Math.random() + 1).toString(36).substring(9)).toUpperCase();
+
       }
 
       return sesId
@@ -206,7 +207,7 @@ wss.on("connection", function(ws) {
 
     if (type == "join") {
       console.log("Attempt join");
-      addPlayerToSession(ws, obj.sessionID)
+      addPlayerToSession(ws, obj.sessionID.toUpperCase());
     }
     if (type == "start_game"){
       startGame(ws, obj.sessionID)
@@ -242,5 +243,22 @@ app.post("/game/create",  function(request, response) {
     "sessionID" : sesID
   }));
   
+});
+
+app.post("/game/join",  function(request, response) {
+
+  const sesID = request.body.sessionID;
+  const session = findSession(_socket, sesID);
+
+  if (session) {
+    response.end(JSON.stringify({
+      "status" : "success"
+    }));
+  }
+  else {
+    response.end(JSON.stringify({
+      "status" : "failed"
+    }));
+  }
 });
 
