@@ -21,7 +21,7 @@
   <main role="main" class="container">
     <h1 id='header'>In it to win it!</h1>
 
-    <button onclick='requestPermissions();' type='button' id='reqPerm'>Request permission</button>
+    <button onclick='startGame();' type='button' id='reqPerm'>Ready</button>
     
     <br>
     <h4>Orientation</h4>
@@ -52,7 +52,6 @@
 
 <script>
   var _sessionID = localStorage.getItem("sessionID");
-  console.log(_sessionID);
   joinGame(_sessionID);
 </script>
 

@@ -89,7 +89,11 @@ function requestPermissions()
     document.getElementById("reqPerm").style.display="none";
 
     //Wait for flashlight to turn on
+}
+
+function startSensors(){
     setTimeout(function(){
+        console.log("Sensors Started");
         window.addEventListener("devicemotion", handleMotion)
         window.addEventListener("deviceorientation", handleOrientation)
     }, 1000);
