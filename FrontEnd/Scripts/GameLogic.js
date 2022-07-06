@@ -142,7 +142,7 @@ function requestPermissions()
         elem.requestFullscreen();
     //else if (elem.webkitRequestFullscreen)
     //    elem.webkitRequestFullscreen();
-    //} 
+    } 
 
     //Take away request permission button
     document.getElementById("reqPerm").style.display="none";
