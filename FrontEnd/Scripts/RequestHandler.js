@@ -102,6 +102,9 @@ function clickJoinGame() {
             else if (obj.status == "session_full"){
                 alert("Game is Full");
             }
+            else if (obj.status == "locked"){
+                alert("Game is already in session!");
+            }
             else {
                 alert("Session Not Found!");
             }

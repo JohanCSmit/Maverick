@@ -8,7 +8,8 @@ function spectate(sessionID) {
 
   for (let i=0; i<session.players.length; i++) {
     p.push({
-      "alive" : session.players[i].alive
+      "alive" : session.players[i].alive,
+      "username" : session.players[i].username
     })
   }
 
@@ -22,6 +23,7 @@ function spectate(sessionID) {
 
 function generateSession(playerCount = 5){
   let session = {
+    locked: false,
     players: [],
     maxPlayerCount: playerCount,
     alivePlayerCount: function () {
@@ -98,6 +100,8 @@ function findPlayer(ws,session){
   }
 }
 
+var usernameCount = 0;
+
 function addPlayerToSession(ws, sessionId, isHost){
   const session = findSession(ws, sessionId)
   if(session){
@@ -115,6 +119,7 @@ function addPlayerToSession(ws, sessionId, isHost){
       else{
         // Check player already joined
         const newPlayer = {
+          username: ("usr" + usernameCount++),
           ws: ws,
           alive: true,
           isHost: isHost
@@ -192,6 +197,7 @@ function checkGameOver(session){
 function startGame(ws, sessionId){
   const session = findSession(ws,sessionId)
   if(session){
+    session.locked = true;
     for (let index = 0; index < session.players.length; index++) {
       var element = session.players[index];
       element.ws.send(JSON.stringify({
@@ -238,7 +244,7 @@ function removePlayer(ws){
     if (p) {
       //killPlayer(ws, ss)
       ss.players.splice(ss.players.indexOf(p),1);
-      checkGameOver(session)
+      checkGameOver(ss)
       return ss.sessionId;
     }
   }
@@ -247,6 +253,8 @@ function removePlayer(ws){
 * Servers
 ============================================================= */
 /* Express Server */
+
+var currentJoin;
 
 var WebSocketServer = require("ws").Server
 var http = require("http")
@@ -277,6 +285,7 @@ wss.on("connection", function(ws) {
 
     if (type == "join") {
       //console.log("Attempt join");
+
       addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
       if (_spectator) spectate(obj.sessionID.toUpperCase());
     }
@@ -341,6 +350,11 @@ app.post("/game/join",  function(request, response) {
     if (session.maxPlayerCount > session.players.length){
       response.end(JSON.stringify({
         "status" : "success"
+      }));
+    }
+    else if (session.locked == true) {
+      response.end(JSON.stringify({
+        "status" : "locked"
       }));
     }
     else{
