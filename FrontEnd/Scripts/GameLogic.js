@@ -1,7 +1,7 @@
 //Events
 //0: Only acc based on sensitivity
 //1: Acc on 1.5xSens, and 40 deg tilt
-var eventNum = 1
+var eventNum = 0
 
 var accNorm = 0
 var gyroNorm = 0
@@ -20,6 +20,7 @@ const green = 120;
 
 function dead()
 {
+    console.log("DDDEEEEAAADDD");
     dieSim();
 
     canRead = false;
@@ -187,11 +188,15 @@ function handleMotion(event)
         updateFieldIfNotNull('Gyroscope_norm', gyroNorm);        
 
         if(eventNum === 0)
-            if(accNorm >= sensitivity)
+            if(accNorm >= sensitivity){
+                console.log("DDDEEEEAAADDD1111111");
                 dead();
+            }
         else if(eventNum === 1)
-            if(accNorm >= sensitivity*1.5)
+            if(accNorm >= sensitivity*1.5){
+                console.log("DDDEEEEAAADDD2222");
                 dead();
+            }
     }
 }
 
@@ -211,8 +216,10 @@ function handleOrientation(event)
         {
             var diff = Math.abs(90 - event.beta);
             changeGradient(diff, 0, 40);
-            if(diff >= 40)
+            if(diff >= 40){
+                console.log("d 3");
                 dead();
+            }
             else if(diff >= 30)
                 document.body.style.background = gradient[3];
             else if(diff >= 20)

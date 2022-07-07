@@ -19,14 +19,14 @@
   <h1>Ready Up!</h1>
   <br>
   <h2 id="SessionIDHeading"><h2>
-  <button onclick='startGame();' type='button' id='reqPerm'>Ready</button>
+  <button onclick='readyGame();' type='button' id='reqPerm'>Ready</button>
 </div>
 
-<div id="PreGameHost" class="bodyDiv" hidden="true">
+<div id="PreGameHost" class="bodyDiv">
   <h1>Waiting for players to ready up ..</h1>
   <br>
-  <h2 id="SessionIDHeading"><h2>
-  <button onclick='startGame();' type='button' id='startGameButton' disabled="true">Start Game</button>
+  <h2 id="SessionIDHeadingHost"><h2>
+  <button onclick='startGame();' type='button' id='startGameButton' hidden="true">Start Game</button>
 </div>
 
 <!-- Will not be displayed when the page is rendered initially -->
@@ -56,8 +56,8 @@
       <li>Z-axis: <span id="Gyroscope_z">0</span><span>°/s</span></li>
       <li>Norm: <span id="Gyroscope_norm">0</span><span>°/s</span></li>
     </ul> >
+
     
-    <button onclick="dead()"> Die </button>
 </main>
 
 <!-- will not be displayed when the page is rendered -->
@@ -86,7 +86,7 @@
 
 <script>
   var _sessionID = localStorage.getItem("sessionID");
-  document.getElementById("SessionIDHeading").innerHTML = "Session ID: " + _sessionID;
+  document.getElementById("SessionIDHeadingHost").innerHTML = "Session ID: " + _sessionID;
   joinGame(_sessionID);
 </script>
 

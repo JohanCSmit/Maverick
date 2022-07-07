@@ -217,10 +217,12 @@ function readyUp(ws, sessionId){
     }
     if(checkAllReady){
       hostplayer = session.players.find((player) => player.isHost == true)
-      hostplayer.ws.send(JSON.stringify({
-        "type" : "allReady",
-        "status": true
-      }));
+      if (hostplayer){
+        hostplayer.ws.send(JSON.stringify({
+          "type" : "allReady",
+          "status": true
+        }));
+      }
     }
     else{
       hostplayer.ws.send(JSON.stringify({
