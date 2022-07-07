@@ -214,6 +214,7 @@ function startGame(ws, sessionId){
 }
 
 function readyUp(ws, sessionId){
+  var hostplayer;
   const session = findSession(ws,sessionId)
   if(session){
     var p = findPlayer(ws, session);
