@@ -208,24 +208,26 @@ function changeGradient(inVar, minValue, maxValue) {
 
 function handleOrientation(event)
 {
-    updateFieldIfNotNull('Orientation_a', event.alpha);
-    updateFieldIfNotNull('Orientation_b', event.beta);
-    updateFieldIfNotNull('Orientation_g', event.gamma);
+    if (canRead) {
+        updateFieldIfNotNull('Orientation_a', event.alpha);
+        updateFieldIfNotNull('Orientation_b', event.beta);
+        updateFieldIfNotNull('Orientation_g', event.gamma);
 
-    if(eventNum === 1)
-    {
-        var diff = Math.abs(90 - event.beta);
-        changeGradient(diff, 0, 40);
-        if(diff >= 40)
-            dead();
-        else if(diff >= 30)
-            document.body.style.background = gradient[3];
-        else if(diff >= 20)
-            document.body.style.background = gradient[2];
-        else if(diff >= 10)
-            document.body.style.background = gradient[1];
-        else
-            document.body.style.background = gradient[0];
+        if(eventNum === 1)
+        {
+            var diff = Math.abs(90 - event.beta);
+            changeGradient(diff, 0, 40);
+            if(diff >= 40)
+                dead();
+            else if(diff >= 30)
+                document.body.style.background = gradient[3];
+            else if(diff >= 20)
+                document.body.style.background = gradient[2];
+            else if(diff >= 10)
+                document.body.style.background = gradient[1];
+            else
+                document.body.style.background = gradient[0];
+        }
     }
 }
 
