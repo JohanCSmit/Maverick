@@ -214,13 +214,13 @@ function startGame(ws, sessionId){
 }
 
 function readyUp(ws, sessionId){
-  var hostplayer;
+  //var hostplayer;
   const session = findSession(ws,sessionId)
   if(session){
     var p = findPlayer(ws, session);
     p.isReady = true;
     if(checkAllReady(session)){
-      hostplayer = session.players.find((player) => player.isHost == true)
+      const hostplayer = session.players.find((player) => player.isHost == true)
       if (hostplayer){
         hostplayer.ws.send(JSON.stringify({
           "type" : "allReady", 
@@ -229,6 +229,7 @@ function readyUp(ws, sessionId){
       }
     }
     else{
+      const hostplayer = session.players.find((player) => player.isHost == true)
       hostplayer.ws.send(JSON.stringify({
         "type" : "allReady",
         "status": false
