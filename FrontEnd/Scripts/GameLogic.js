@@ -35,6 +35,8 @@ function dead()
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
 
+    document.getElementById("PostGameMessage").innerHTML = "YOU LOSE!";
+
     document.body.style.background = 'hsl(0,100%,50%)';
 
     //window.removeEventListener("devicemotion", handleMotion)
@@ -90,6 +92,8 @@ function winning(){
 
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
+
+    document.getElementById("PostGameMessageHost").innerHTML = "WINNER!";
 
     canRead = false;
 
