@@ -142,6 +142,8 @@ function addPlayerToSession(ws, sessionId, isHost){
           "type" : "isHost",
           "status" : newPlayer.isHost
         }));
+
+        return newPlayer;
       }
     }
     else{
@@ -321,7 +323,10 @@ wss.on("connection", function(ws) {
     if (type == "join") {
       //console.log("Attempt join");
 
-      addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
+      var pppp = addPlayerToSession(ws, obj.sessionID.toUpperCase(), obj.isHost);
+      if (!obj.isHost) pppp.username = obj.displayName;
+      else pppp.username = "Host";
+
       if (_spectator) spectate(obj.sessionID.toUpperCase());
     }
     if (type == "start_game"){
@@ -396,6 +401,7 @@ app.post("/game/join",  function(request, response) {
   console.log(request.body);
 
   var sesID = request.body.sessionID;
+  //var displayName = request.body.displayName;
   sesID = sesID.toUpperCase();
   //console.log("searching " + sesID);
   const session = findSessionHttp(sesID);

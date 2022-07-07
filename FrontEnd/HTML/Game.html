@@ -86,8 +86,10 @@
 
 <script>
   var _sessionID = localStorage.getItem("sessionID");
+  var displayName = localStorage.getItem("displayName");
+
   document.getElementById("SessionIDHeading").innerHTML = "Session ID: " + _sessionID;
-  joinGame(_sessionID);
+  joinGame(_sessionID, displayName);
 </script>
 
 </body>

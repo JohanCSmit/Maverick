@@ -66,6 +66,8 @@ function createGame(pCount){
 function clickJoinGame() {
     var sessionID = document.getElementById("sessionID").value;
     var displayName = document.getElementById("displayName").value;
+
+    console.log(displayName);
     
     if (sessionID.trim() == ""){
         document.getElementById("error").value = "Field cannot be empty";
@@ -78,6 +80,8 @@ function clickJoinGame() {
     }
 
     _sessionID = sessionID;
+
+    localStorage.setItem("displayName", displayName);
 
     var data = "sessionID="+sessionID;
 
@@ -120,7 +124,7 @@ function clickJoinGame() {
     //joinGame(sessionID);
 }
 
-function joinGame(sessionID){
+function joinGame(sessionID, displayName){
 
     //alert("Joining");
 
@@ -142,7 +146,8 @@ function joinGame(sessionID){
         var obj = {
             "type": "join",
             "sessionID": sessionID,
-            "isHost": isHost
+            "isHost": isHost,
+            "displayName": displayName
         }
 
         _socket.send(JSON.stringify(obj));
