@@ -27,10 +27,7 @@ function dead()
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
 
-    if (_isHost) document.getElementById("PostGameMessageHost").innerHTML = "YOU LOSE!";
-    else document.getElementById("PostGameMessage").innerHTML = "YOU LOSE!";
-
-    
+    document.getElementById("PostGameMessage").innerHTML = "YOU LOSE!";
 
     document.body.style.background = 'hsl(0,100%,50%)';
 
@@ -88,10 +85,7 @@ function winning(){
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
 
-    if (_isHost) document.getElementById("PostGameMessageHost").innerHTML = "WINNER!";
-    else document.getElementById("PostGameMessage").innerHTML = "WINNER!";
-
-    document.body.style.background = 'hsl(120,100%,50%)';
+    document.getElementById("PostGameMessageHost").innerHTML = "WINNER!";
 
     canRead = false;
 
@@ -208,24 +202,26 @@ function changeGradient(inVar, minValue, maxValue) {
 
 function handleOrientation(event)
 {
-    updateFieldIfNotNull('Orientation_a', event.alpha);
-    updateFieldIfNotNull('Orientation_b', event.beta);
-    updateFieldIfNotNull('Orientation_g', event.gamma);
+    if(canRead){
+        updateFieldIfNotNull('Orientation_a', event.alpha);
+        updateFieldIfNotNull('Orientation_b', event.beta);
+        updateFieldIfNotNull('Orientation_g', event.gamma);
 
-    if(eventNum === 1)
-    {
-        var diff = Math.abs(90 - event.beta);
-        changeGradient(diff, 0, 40);
-        if(diff >= 40)
-            dead();
-        else if(diff >= 30)
-            document.body.style.background = gradient[3];
-        else if(diff >= 20)
-            document.body.style.background = gradient[2];
-        else if(diff >= 10)
-            document.body.style.background = gradient[1];
-        else
-            document.body.style.background = gradient[0];
+        if(eventNum === 1)
+        {
+            var diff = Math.abs(90 - event.beta);
+            changeGradient(diff, 0, 40);
+            if(diff >= 40)
+                dead();
+            else if(diff >= 30)
+                document.body.style.background = gradient[3];
+            else if(diff >= 20)
+                document.body.style.background = gradient[2];
+            else if(diff >= 10)
+                document.body.style.background = gradient[1];
+            else
+                document.body.style.background = gradient[0];
+        }
     }
 }
 
