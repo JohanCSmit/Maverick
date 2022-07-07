@@ -235,9 +235,6 @@ function startGame(){
                 "type": "start_game",
                 "sessionID" : localStorage.getItem("sessionID")
             }));
-
-            document.getElementById("PreGame").hidden = true;
-            document.getElementById("PreGameHost").hidden = true;
         }
     }
 

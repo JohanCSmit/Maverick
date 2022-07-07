@@ -166,6 +166,9 @@ function startSensors(){
         window.addEventListener("devicemotion", handleMotion)
         window.addEventListener("deviceorientation", handleOrientation)
 
+        document.getElementById("PreGame").hidden = true;
+        document.getElementById("PreGameHost").hidden = true;
+
         if (_isHost) musicHandler()
     }, 1000);
 }
