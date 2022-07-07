@@ -162,7 +162,7 @@ function joinGame(sessionID){
 
         if (obj.type == "reset") reset();
 
-        if (obj.type == "sensitivity") updateSensitivity(obj.type);
+        if (obj.type == "sensitivity") updateSensitivity(obj.status);
     }
 
     _socket.onclose = function() {

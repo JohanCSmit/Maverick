@@ -20,7 +20,7 @@ const green = 120;
 
 function changeGradient(acceleration, minValue, maxValue) {
 
-    grad = Math.abs((acceleration / maxValue) * green - green);
+    var grad = Math.abs((acceleration / maxValue) * green - green);
 
     document.body.style.background = `hsl(${grad},100%,50%)`;
 
