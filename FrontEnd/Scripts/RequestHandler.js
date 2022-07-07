@@ -77,11 +77,18 @@ function startGame(){
 
 function clickJoinGame() {
     var sessionID = document.getElementById("sessionID").value;
+    var displayName = document.getElementById("displayName").value;
     
     if (sessionID.trim() == ""){
         document.getElementById("error").value = "Field cannot be empty";
         return;
    }
+
+   if (displayName.trim() == ""){
+        document.getElementById("errorDisplayName").value = "Field cannot be empty";
+        return;
+    }
+
     _sessionID = sessionID;
 
     var data = "sessionID="+sessionID;

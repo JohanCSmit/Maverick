@@ -20,10 +20,14 @@
         <label for="sessionID">Session ID</label>
         <br>
         <input type="text" id="sessionID" name="sessionID" class="textInput" placeholder="Please enter the session code">
-
         <br>
-        <output type="text" value="" id="JoinGameError" style="color: red; font-size: x-small; vertical-align: baseline; text-align: left !important; width: 100% !important;"></output>
+        <output type="text" class="errorOutput" value="" id="error" style="color: red; font-size: x-small; vertical-align: baseline; text-align: left !important; width: 100% !important;"></output>
         <br>
+        <input type="text" id="displayName" name="displayName" class="textInput" placeholder="Please enter a display name">
+        <br>
+        <output type="text"class="errorOutput" value="" id="errorDisplayName" style="color: red; font-size: x-small; vertical-align: baseline; text-align: left !important; width: 100% !important;"></output>
+        <br>
+        
         <!--form action="PlayerWait.html"-->
             <input type="submit" value="Join" onclick="clickJoinGame()"/>
         <!--/form-->
