@@ -63,20 +63,6 @@ function createGame(pCount){
     xhr.send(data);
 }
 
-function startGame(){
-    if (_isHost == true){
-        console.log("Host Started Game thus _isHost is true")
-        _socket.send(JSON.stringify({
-            "type": "start_game",
-            "sessionID" : localStorage.getItem("sessionID")
-        }));
-    }
-
-    if (!_isHost) requestPermissions();
-
-    
-}
-
 function clickJoinGame() {
     var sessionID = document.getElementById("sessionID").value;
     
@@ -155,11 +141,25 @@ function joinGame(sessionID){
         _socket.send(JSON.stringify(obj));
     }
 
+    function setAllReady(allReady){
+        if(_isHost){
+            if(allReady){
+                _AllReady = allReady
+                document.getElementById("startGameButton").disabled = false;
+            }
+        }
+    }
+
     _socket.onmessage = function(message) {
         const obj = JSON.parse(message.data);
         const type = obj.type;
 
-        if (obj.type == "isHost") _isHost = obj.status
+        if (obj.type == "isHost") {
+            
+            _isHost = obj.status
+            document.getElementById("PreGame").hidden = false;
+            document.getElementById("PreGameHost").hidden = true;
+        }
 
         if (obj.type == "win") winning();
 
@@ -169,6 +169,8 @@ function joinGame(sessionID){
 
         if (obj.type == "sensitivity") updateSensitivity(obj.status);
 
+        if (obj.type == "allReady") setAllReady(obj.status);
+
         if (obj.type == "start_response") {
             if (obj.status == "success") {
                 requestPermissions();
@@ -176,7 +178,7 @@ function joinGame(sessionID){
             else {
                 alert("Not Enough Players");
             }
-        }
+        };
     }
 
     _socket.onclose = function() {
@@ -194,6 +196,28 @@ function dieSim() {
         "sessionID" : localStorage.getItem("sessionID")
     }));
   }
+
+function startGame(){
+    if (_isHost == true){
+        if(_AllReady == true){
+            _socket.send(JSON.stringify({
+                "type": "start_game",
+                "sessionID" : localStorage.getItem("sessionID")
+            }));
+        }
+        else{
+
+        }
+    }
+    else{
+        _socket.send(JSON.stringify({
+            "type": "ready_up",
+            "sessionID" : localStorage.getItem("sessionID")
+        }));
+    }
+
+    if (!_isHost) requestPermissions();
+}
 
 function sendSensitivity(sensitivity){
     _socket.send(JSON.stringify({

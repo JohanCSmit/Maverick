@@ -16,12 +16,17 @@
 
   <!-- Will be displayed when the page is rendered initially  -->
 <div id="PreGame" class="bodyDiv" >
-
   <h1>Ready Up!</h1>
   <br>
   <h2 id="SessionIDHeading"><h2>
   <button onclick='startGame();' type='button' id='reqPerm'>Ready</button>
+</div>
 
+<div id="PreGameHost" class="bodyDiv" hidden="true">
+  <h1>Waiting for players to ready up ..</h1>
+  <br>
+  <h2 id="SessionIDHeading"><h2>
+  <button onclick='startGame();' type='button' id='startGameButton' disabled="true">Start Game</button>
 </div>
 
 <!-- Will not be displayed when the page is rendered initially -->
