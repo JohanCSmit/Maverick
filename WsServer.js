@@ -162,7 +162,7 @@ function killPlayer(ws, sessionId){
   if(session){
     const player = findPlayer(ws,session)
     if(player){
-      player.score = element.score + 1;
+      player.score = player.score + 1;
       //Kills player
       player.alive = false
       // Send conformation to player 
