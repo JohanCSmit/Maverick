@@ -290,7 +290,23 @@ wss.on("connection", function(ws) {
       if (_spectator) spectate(obj.sessionID.toUpperCase());
     }
     if (type == "start_game"){
-      startGame(ws, obj.sessionID.toUpperCase())
+
+      if (sessions.find((s) => s.sessionId === obj.sessionID.toUpperCase()).players.length > 1){
+
+        startGame(ws, obj.sessionID.toUpperCase());
+        
+        ws.send(JSON.stringify({
+          "type": "start_response",
+          "status": "success"
+        }));
+      }
+      else {
+        ws.send(JSON.stringify({
+          "type": "start_response",
+          "status": "failed"
+        }));
+
+      }
     }
     if (type == "lose") {
       killPlayer(ws, obj.sessionID.toUpperCase());
