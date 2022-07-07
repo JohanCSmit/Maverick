@@ -1,7 +1,7 @@
 //Events
 //0: Only acc based on sensitivity
 //1: Acc on 1.5xSens, and 40 deg tilt
-var eventNum = 1
+var eventNum = 0
 
 var accNorm = 0
 var gyroNorm = 0
@@ -12,8 +12,8 @@ var canRead = true;
 var noIOS = true;
 
 var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
-var sensitivity = 8
-var baseSense = 8
+var sensitivity = 10
+var baseSense = 10
 
 document.body.style.background = 'hsl(120,100%,50%)';
 const green = 120;
@@ -64,13 +64,13 @@ function reset(){
     if (_isHost) resetMusic();
     document.body.style.background = 'hsl(120,100%,50%)';
 
-    eventNum = 1
+    eventNum = 0
     accNorm = 0
     gyroNorm = 0
 
     gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
-    sensitivity = 8
-    baseSense = 8
+    sensitivity = 10
+    baseSense = 10
     
     //Hide notification div
     if (_isHost) document.getElementById("PostGameHost").style = "display: none";
@@ -189,6 +189,8 @@ function handleMotion(event)
         updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
         gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha,2) + Math.pow(event.rotationRate.beta,2) + Math.pow(event.rotationRate.gamma,2));
         updateFieldIfNotNull('Gyroscope_norm', gyroNorm);        
+
+        changeGradient(accNorm, 0, sensitivity);
 
         if(eventNum === 0)
             if(accNorm >= sensitivity)
