@@ -202,7 +202,7 @@ function changeGradient(inVar, minValue, maxValue) {
 
 function handleOrientation(event)
 {
-    if(canRead){
+    if (canRead) {
         updateFieldIfNotNull('Orientation_a', event.alpha);
         updateFieldIfNotNull('Orientation_b', event.beta);
         updateFieldIfNotNull('Orientation_g', event.gamma);
