@@ -440,3 +440,6 @@ app.post("/game/join",  function(request, response) {
   }
 });
 
+process.on('uncaughtException', function(err) {
+  console.log('Caught exception: ' + err);
+});
