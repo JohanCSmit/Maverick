@@ -180,8 +180,12 @@ function killPlayer(ws, sessionId){
 function checkGameOver(session){
   if(session.alivePlayerCount() <= 1){
     const winner = session.players.find((player) => player.alive == true)
+    winner.ws.send(JSON.stringify({
+      "type" : "win",
+      "status" : "Wel done you are slightly above averagre compared to the rest"
+    }));
       // Message sent to losers
-      for (let index = 0; index < session.players.length; index++) {
+      /*for (let index = 0; index < session.players.length; index++) {
         var element = session.players[index];
         if (element.ws == winner.ws){
           element.score = element.score + 1;
@@ -196,7 +200,7 @@ function checkGameOver(session){
             "status" : "Mission failed.. We'll get them next time troops"
           }));
         }
-      }
+      }*/
   }
 }
 
