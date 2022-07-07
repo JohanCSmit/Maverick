@@ -238,6 +238,8 @@ function startGame(){
         }
     }
 
+    document.getElementById("headingHost").innerHTML = "Game Started"
+
     if (!_isHost) requestPermissions();
 }
 
@@ -246,6 +248,8 @@ function readyGame(){
         "type": "ready_up",
         "sessionID" : localStorage.getItem("sessionID")
     }));
+
+    document.getElementById("headingPlayer").innerHTML = "Waiting for Host"
 
     requestPermissions();
 }
