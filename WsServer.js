@@ -228,15 +228,17 @@ function updateSensitivity(ws, sessionId, sensitivity){
   }
 }
 
-function removePlayer(ws, sessionId){
-  const session = findSession(ws,sessionId)
-  if(session){
-    const player = findPlayer(ws,session)
-    if(player){
-      killPlayer(ws, sessionId)
-      session.players.splice(session.players.indexOf(player),1)
-      return
+function removePlayer(ws){
+  
+  for (let i=0; i<sessions.length; i++) {
+    var ss = sessions[i];
 
+    var p = findPlayer(ws, ss);
+
+    if (p) {
+      //killPlayer(ws, ss)
+      ss.players.splice(ss.players.indexOf(p),1);
+      return ss.sessionId;
     }
   }
 }
@@ -297,6 +299,12 @@ wss.on("connection", function(ws) {
     }
     
   });
+
+  ws.on("close", function() {
+    const sID = removePlayer(ws);
+    if (_spectator && sID) spectate(sID.toUpperCase());
+  });
+
 })
 
 const bodyParser = require('body-parser');
