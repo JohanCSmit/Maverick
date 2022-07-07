@@ -162,7 +162,7 @@ function killPlayer(ws, sessionId){
   if(session){
     const player = findPlayer(ws,session)
     if(player){
-      player.score = player.score + 1;
+      //player.score = player.score + 1;
       //Kills player
       player.alive = false
       // Send conformation to player 
@@ -181,6 +181,7 @@ function killPlayer(ws, sessionId){
 function checkGameOver(session){
   if(session.alivePlayerCount() <= 1){
     const winner = session.players.find((player) => player.alive == true)
+    winner.score = winner.score + 1;
     winner.ws.send(JSON.stringify({
       "type" : "win",
       "status" : "Wel done you are slightly above averagre compared to the rest"
