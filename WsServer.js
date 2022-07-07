@@ -9,7 +9,8 @@ function spectate(sessionID) {
   for (let i=0; i<session.players.length; i++) {
     p.push({
       "alive" : session.players[i].alive,
-      "username" : session.players[i].username
+      "username" : session.players[i].username,
+      "score" : session.players[i].score
     })
   }
 
@@ -123,7 +124,8 @@ function addPlayerToSession(ws, sessionId, isHost){
           ws: ws,
           alive: true,
           isHost: isHost,
-          isReady: false
+          isReady: false,
+          score: 0
         }
 
         //if a host already exists dont set another one 
@@ -182,6 +184,7 @@ function checkGameOver(session){
       for (let index = 0; index < session.players.length; index++) {
         var element = session.players[index];
         if (element.ws == winner.ws){
+          element.score = element.score + 1;
           element.ws.send(JSON.stringify({
             "type" : "win",
             "status" : "Wel done you are slightly above averagre compared to the rest"
