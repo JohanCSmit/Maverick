@@ -220,7 +220,7 @@ function readyUp(ws, sessionId){
       var element = session.players[index];
       element.isReady = true
     }
-    if(checkAllReady){
+    if(checkAllReady(session)){
       hostplayer = session.players.find((player) => player.isHost == true)
       if (hostplayer){
         hostplayer.ws.send(JSON.stringify({
