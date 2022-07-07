@@ -237,7 +237,7 @@ function checkAllReady(session){
   let allReady = true
   for (let index = 0; index < session.players.length; index++) {
     var element = session.players[index];
-    if (!element.isReady){
+    if (element.isReady == false && element.isHost == false){
       allReady = false
     }
   }
