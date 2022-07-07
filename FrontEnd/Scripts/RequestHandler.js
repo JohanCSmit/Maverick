@@ -169,7 +169,16 @@ function joinGame(sessionID){
 
         if (obj.type == "sensitivity") updateSensitivity(obj.status);
 
-        if (obj.type == "allReady") setAllReady(obj.status)
+        if (obj.type == "allReady") setAllReady(obj.status);
+
+        if (obj.type == "start_response") {
+            if (obj.status == "success") {
+                requestPermissions();
+            }
+            else {
+                alert("Not Enough Players");
+            }
+        };
     }
 
     _socket.onclose = function() {
@@ -207,7 +216,7 @@ function startGame(){
         }));
     }
 
-    requestPermissions()
+    if (!_isHost) requestPermissions();
 }
 
 function sendSensitivity(sensitivity){

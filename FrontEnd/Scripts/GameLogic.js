@@ -1,7 +1,7 @@
 //Events
 //0: Only acc based on sensitivity
 //1: Acc on 1.5xSens, and 40 deg tilt
-var eventNum = 0
+var eventNum = 1
 
 var accNorm = 0
 var gyroNorm = 0
@@ -18,14 +18,6 @@ var baseSense = 8
 document.body.style.background = 'hsl(120,100%,50%)';
 const green = 120;
 
-function changeGradient(acceleration, minValue, maxValue) {
-
-    var grad = Math.abs((acceleration / maxValue) * green - green);
-
-    document.body.style.background = `hsl(${grad},100%,50%)`;
-
-}
-
 function dead()
 {
     dieSim();
@@ -34,6 +26,11 @@ function dead()
 
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
+
+    if (_isHost) document.getElementById("PostGameMessageHost").innerHTML = "YOU LOSE!";
+    else document.getElementById("PostGameMessage").innerHTML = "YOU LOSE!";
+
+    
 
     document.body.style.background = 'hsl(0,100%,50%)';
 
@@ -67,7 +64,7 @@ function reset(){
     if (_isHost) resetMusic();
     document.body.style.background = 'hsl(120,100%,50%)';
 
-    eventNum = 0
+    eventNum = 1
     accNorm = 0
     gyroNorm = 0
 
@@ -90,6 +87,11 @@ function winning(){
 
     if (_isHost) document.getElementById("PostGameHost").style = "display: show";
     else document.getElementById("PostGame").style = "display: show";
+
+    if (_isHost) document.getElementById("PostGameMessageHost").innerHTML = "WINNER!";
+    else document.getElementById("PostGameMessage").innerHTML = "WINNER!";
+
+    document.body.style.background = 'hsl(120,100%,50%)';
 
     canRead = false;
 
@@ -188,9 +190,7 @@ function handleMotion(event)
         updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
         updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
         gyroNorm = Math.sqrt(Math.pow(event.rotationRate.alpha,2) + Math.pow(event.rotationRate.beta,2) + Math.pow(event.rotationRate.gamma,2));
-        updateFieldIfNotNull('Gyroscope_norm', gyroNorm);
-
-        changeGradient(accNorm, 0, sensitivity);
+        updateFieldIfNotNull('Gyroscope_norm', gyroNorm);        
 
         if(eventNum === 0)
             if(accNorm >= sensitivity)
@@ -199,6 +199,11 @@ function handleMotion(event)
             if(accNorm >= sensitivity*1.5)
                 dead();
     }
+}
+
+function changeGradient(inVar, minValue, maxValue) {
+    var grad = Math.abs((inVar / maxValue) * green - green);
+    document.body.style.background = `hsl(${grad},100%,50%)`;
 }
 
 function handleOrientation(event)
@@ -210,6 +215,7 @@ function handleOrientation(event)
     if(eventNum === 1)
     {
         var diff = Math.abs(90 - event.beta);
+        changeGradient(diff, 0, 40);
         if(diff >= 40)
             dead();
         else if(diff >= 30)
