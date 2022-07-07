@@ -222,7 +222,7 @@ function readyUp(ws, sessionId){
       hostplayer = session.players.find((player) => player.isHost == true)
       if (hostplayer){
         hostplayer.ws.send(JSON.stringify({
-          "type" : "allReady",
+          "type" : "allReady", 
           "status": true
         }));
       }
