@@ -122,7 +122,8 @@ function addPlayerToSession(ws, sessionId, isHost){
           username: ("usr" + usernameCount++),
           ws: ws,
           alive: true,
-          isHost: isHost
+          isHost: isHost,
+          isReady: false
         }
 
         //if a host already exists dont set another one 
@@ -205,6 +206,40 @@ function startGame(ws, sessionId){
       }));
     }
   }
+}
+
+function readyUp(ws, sessionId){
+  const session = findSession(ws,sessionId)
+  if(session){
+    for (let index = 0; index < session.players.length; index++) {
+      var element = session.players[index];
+      element.isReady = true
+    }
+    if(checkAllReady){
+      hostplayer = session.players.find((player) => player.isHost == true)
+      hostplayer.ws.send(JSON.stringify({
+        "type" : "allReady",
+        "status": true
+      }));
+    }
+    else{
+      hostplayer.ws.send(JSON.stringify({
+        "type" : "allReady",
+        "status": false
+      }));
+    }
+  }
+}
+
+function checkAllReady(session){
+  let allReady = true
+  for (let index = 0; index < session.players.length; index++) {
+    var element = session.players[index];
+    if (!element.isReady){
+      allReady = false
+    }
+  }
+  return allReady
 }
 
 function resetGame(ws, sessionId){
@@ -291,6 +326,9 @@ wss.on("connection", function(ws) {
     }
     if (type == "start_game"){
       startGame(ws, obj.sessionID.toUpperCase())
+    }
+    if (type == "ready_up"){
+      readyUp(ws, obj.sessionID.toUpperCase())
     }
     if (type == "lose") {
       killPlayer(ws, obj.sessionID.toUpperCase());
