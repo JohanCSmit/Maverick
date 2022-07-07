@@ -216,7 +216,7 @@ function startGame(ws, sessionId){
 function readyUp(ws, sessionId){
   const session = findSession(ws,sessionId)
   if(session){
-    var p = findPlayer(ws, sessionId);
+    var p = findPlayer(ws, session);
     p.isReady = true;
     if(checkAllReady(session)){
       hostplayer = session.players.find((player) => player.isHost == true)
