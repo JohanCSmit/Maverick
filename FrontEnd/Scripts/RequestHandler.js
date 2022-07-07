@@ -173,6 +173,7 @@ function joinGame(sessionID, displayName){
             if(allReady){
                 _AllReady = true
                 document.getElementById("startGameButton").hidden = false;
+                document.getElementById("headingHost").innerHTML = "Everyone is Ready"
             }
         }
     }
