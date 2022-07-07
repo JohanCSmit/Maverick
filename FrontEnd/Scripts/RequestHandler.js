@@ -5,7 +5,7 @@ var debug = false;
 
 var _host;
 
-const maxPlayers = 5;
+const maxPlayers = 8;
 const minPlayers = 2;
 
 function clickCreateGame() {
