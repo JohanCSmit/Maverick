@@ -9,16 +9,7 @@ var track
 
 var canRead = true;
 
-var noIOS = function() {
-    return !([
-        'iPad Simulator',
-        'iPhone Simulator',
-        'iPod Simulator',
-        'iPad',
-        'iPhone',
-        'iPod'
-      ].includes(navigator.platform));
-}
+var noIOS = true;
 
 var gradient = ['#83ff00', '#a9b400', '#fefe33', '#ff0f00', '#d75c00']
 var sensitivity = 8
@@ -46,8 +37,8 @@ function dead()
 
     document.body.style.background = 'hsl(0,100%,50%)';
 
-    window.removeEventListener("devicemotion", handleMotion)
-    window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener("devicemotion", handleMotion)
+    //window.removeEventListener("deviceorientation", handleOrientation);
 
     //IOS compatibility
     if(noIOS)
@@ -89,7 +80,8 @@ function reset(){
     else document.getElementById("PostGame").style = "display: none";
    
     // Restart sensors
-    startSensors();
+    //startSensors();
+    if (_isHost) musicHandler();
     canRead = true;
 
 }
@@ -102,8 +94,8 @@ function winning(){
     canRead = false;
 
     //Remove previous event listeners
-    window.removeEventListener("devicemotion", handleMotion)
-    window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener("devicemotion", handleMotion)
+    //window.removeEventListener("deviceorientation", handleOrientation);
 
     // If player died and is Host make reset button visible 
     /*if(_isHost){
@@ -185,7 +177,7 @@ function updateFieldIfNotNull(fieldName, value, precision=10)
 
 function handleMotion(event)
 {
-    //if (canRead) {
+    if (canRead) {
         updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
         updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
         updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
@@ -206,7 +198,7 @@ function handleMotion(event)
         else if(eventNum === 1)
             if(accNorm >= sensitivity*1.5)
                 dead();
-    //}
+    }
 }
 
 function handleOrientation(event)
