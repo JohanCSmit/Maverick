@@ -141,7 +141,14 @@ function requestPermissions()
                 track.applyConstraints({advanced: [{torch: true}]});
             });
         });
+    }
 
+    var name = navigator.appVersion;
+    var device = name.substring(name.indexOf("(")+1, name.indexOf(";"));
+    if (device.toLowerCase() == "iphone" || device.toLowerCase() == "ipad"){
+    }
+    else
+    {
         // Create the root video element - prevent android from sleeping
         var video = document.createElement('video');
         video.setAttribute('loop', '');
