@@ -238,6 +238,7 @@ function removePlayer(ws){
     if (p) {
       //killPlayer(ws, ss)
       ss.players.splice(ss.players.indexOf(p),1);
+      checkGameOver(session)
       return ss.sessionId;
     }
   }
