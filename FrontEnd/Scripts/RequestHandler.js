@@ -79,6 +79,11 @@ function clickJoinGame() {
         return;
     }
 
+    if (displayName.trim().length > 5){
+        document.getElementById("errorDisplayName").value = "Display name must be less than 5 characters";
+        return;
+    }
+
     _sessionID = sessionID;
 
     localStorage.setItem("displayName", displayName);
