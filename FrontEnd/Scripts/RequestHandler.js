@@ -5,6 +5,12 @@ var debug = false;
 
 var _host;
 
+var _is
+
+var _AllReady = false
+
+var _isHost = false
+
 const maxPlayers = 8;
 const minPlayers = 2;
 
@@ -133,6 +139,10 @@ function joinGame(sessionID, displayName){
 
     //alert("Joining");
 
+    document.getElementById("PreGame").hidden = false;
+    document.getElementById("PreGameHost").hidden = true;
+    document.getElementById("SessionIDHeadingHost").innerHTML = "Session ID: " + _sessionID;
+
     var host;
 
     if (debug) host = location.origin.replace(/^http/, 'ws')
@@ -161,8 +171,8 @@ function joinGame(sessionID, displayName){
     function setAllReady(allReady){
         if(_isHost){
             if(allReady){
-                _AllReady = allReady
-                document.getElementById("startGameButton").disabled = false;
+                _AllReady = true
+                document.getElementById("startGameButton").hidden = false;
             }
         }
     }
@@ -172,10 +182,14 @@ function joinGame(sessionID, displayName){
         const type = obj.type;
 
         if (obj.type == "isHost") {
-            
-            _isHost = obj.status
-            document.getElementById("PreGame").hidden = false;
-            document.getElementById("PreGameHost").hidden = true;
+            if (obj.status){
+                _isHost = obj.status
+                if (!_AllReady){
+                    document.getElementById("PreGame").hidden = true;
+                    document.getElementById("PreGameHost").hidden = false;
+                }
+                document.getElementById("SessionIDHeadingHost").innerHTML = "Session ID: " + _sessionID;
+            }
         }
 
         if (obj.type == "win") winning();
@@ -215,25 +229,28 @@ function dieSim() {
   }
 
 function startGame(){
-    if (_isHost == true){
+    if (_isHost){
         if(_AllReady == true){
             _socket.send(JSON.stringify({
                 "type": "start_game",
                 "sessionID" : localStorage.getItem("sessionID")
             }));
-        }
-        else{
 
+            document.getElementById("PreGame").hidden = true;
+            document.getElementById("PreGameHost").hidden = true;
         }
-    }
-    else{
-        _socket.send(JSON.stringify({
-            "type": "ready_up",
-            "sessionID" : localStorage.getItem("sessionID")
-        }));
     }
 
     if (!_isHost) requestPermissions();
+}
+
+function readyGame(){
+    _socket.send(JSON.stringify({
+        "type": "ready_up",
+        "sessionID" : localStorage.getItem("sessionID")
+    }));
+
+    requestPermissions();
 }
 
 function sendSensitivity(sensitivity){
